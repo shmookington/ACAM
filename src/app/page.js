@@ -61,7 +61,7 @@ export default function LoginPage() {
         {/* ACAM Logo / Title */}
         <div className={styles.logoSection}>
           <h1 className={`${styles.title} animate-boot-in`}>ACAM</h1>
-          <p className={`${styles.subtitle} animate-boot-in delay-1`}>
+          <p className={styles.subtitle}>
             Automated Customer Acquisition Machine
           </p>
           <div className={`${styles.divider} animate-boot-in delay-2`} />
