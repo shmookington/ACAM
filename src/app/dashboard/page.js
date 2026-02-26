@@ -234,6 +234,24 @@ export default function DashboardPage() {
                     ))}
                 </section>
 
+                {/* World Domination Banner */}
+                <section
+                    className={`${styles.dominationBanner} animate-boot-in delay-2`}
+                    onClick={() => router.push('/map')}
+                    role="button"
+                    tabIndex={0}
+                >
+                    <div className={styles.dominationBannerGlow} />
+                    <div className={styles.dominationBannerContent}>
+                        <div className={styles.dominationBannerIcon}>[◉]</div>
+                        <div className={styles.dominationBannerText}>
+                            <h3>WORLD DOMINATION</h3>
+                            <p>700+ cities · Heat signatures · Conquer territory</p>
+                        </div>
+                        <div className={styles.dominationBannerArrow}>▶</div>
+                    </div>
+                </section>
+
                 {/* Email Queue Summary (when there are pending emails) */}
                 {(metrics.drafts > 0 || metrics.approved > 0) && (
                     <section className="animate-boot-in delay-2">
@@ -522,23 +540,6 @@ export default function DashboardPage() {
                 </section>
 
 
-                {/* World Domination Banner */}
-                <section
-                    className={`${styles.dominationBanner} animate-boot-in delay-5`}
-                    onClick={() => router.push('/map')}
-                    role="button"
-                    tabIndex={0}
-                >
-                    <div className={styles.dominationBannerGlow} />
-                    <div className={styles.dominationBannerContent}>
-                        <div className={styles.dominationBannerIcon}>[◉]</div>
-                        <div className={styles.dominationBannerText}>
-                            <h3>WORLD DOMINATION</h3>
-                            <p>700+ cities · Heat signatures · Conquer territory</p>
-                        </div>
-                        <div className={styles.dominationBannerArrow}>▶</div>
-                    </div>
-                </section>
 
             </div>
 

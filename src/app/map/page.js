@@ -184,7 +184,7 @@ export default function MapPage() {
                             <span>Toby</span>
                         </div>
                         <div className={styles.legendItem}>
-                            <span className={styles.legendDot} style={{ background: '#ffb000' }} />
+                            <span className={styles.legendDot} style={{ background: '#c084fc' }} />
                             <span>Yaz</span>
                         </div>
                     </div>
