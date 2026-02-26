@@ -43,6 +43,7 @@ function SavedLeadsInner() {
     const [userEmail, setUserEmail] = useState('');
     const [teamFilter, setTeamFilter] = useState('all');
     const [sortBy, setSortBy] = useState('newest');
+    const [quickLogId, setQuickLogId] = useState(null);
 
     // Get current user session
     useEffect(() => {
@@ -380,6 +381,33 @@ function SavedLeadsInner() {
             setLeads(prev => prev.map(l => l.id === leadId ? { ...l, status: newStatus } : l));
         } catch (err) {
             console.error('Status update error:', err);
+        }
+    };
+
+    // Quick inline call log — records call immediately
+    const handleQuickLog = async (lead, outcome) => {
+        try {
+            const now = new Date().toISOString();
+            await supabase.from('leads').update({
+                call_outcome: outcome,
+                last_called_at: now,
+                status: 'contacted',
+            }).eq('id', lead.id);
+
+            await supabase.from('intelligence_log').insert({
+                action_type: 'call_outcome',
+                industry: lead.category?.toLowerCase()?.trim() || null,
+                lead_id: lead.id,
+                outcome: outcome,
+                metadata: { business_name: lead.business_name, quick_log: true },
+            });
+
+            setLeads(prev => prev.map(l => l.id === lead.id ?
+                { ...l, call_outcome: outcome, last_called_at: now, status: 'contacted' } : l
+            ));
+            setQuickLogId(null);
+        } catch (err) {
+            console.error('Quick log error:', err);
         }
     };
 
@@ -866,8 +894,14 @@ function SavedLeadsInner() {
                                                 {lead.website_url && (
                                                     <a href={lead.website_url} target="_blank" rel="noopener noreferrer">Website</a>
                                                 )}
-                                                <button className={styles.dialBtn} onClick={() => handleOpenDialer(lead)}>
+                                                <button
+                                                    className={`${styles.dialBtn} ${quickLogId === lead.id ? styles.dialBtnActive : ''}`}
+                                                    onClick={() => setQuickLogId(quickLogId === lead.id ? null : lead.id)}
+                                                >
                                                     📞 LOG CALL
+                                                </button>
+                                                <button className={styles.scriptBtn} onClick={() => handleOpenDialer(lead)}>
+                                                    📋 SCRIPT
                                                 </button>
                                                 <button className={styles.caseStudyBtn} onClick={() => handleOpenCaseStudy(lead)}>
                                                     📸 Case Study
@@ -1069,6 +1103,20 @@ function SavedLeadsInner() {
                                                 <button className={styles.deleteBtn} onClick={() => requestDelete(lead.id, lead.business_name)}>✕</button>
                                             </div>
                                         </div>
+
+                                        {/* Inline Quick Call Logger */}
+                                        {quickLogId === lead.id && (
+                                            <div className={styles.quickLogPanel}>
+                                                <span className={styles.quickLogLabel}>LOG OUTCOME:</span>
+                                                <div className={styles.quickLogBtns}>
+                                                    <button className={styles.qlInterested} onClick={() => handleQuickLog(lead, 'interested')}>👍 INTERESTED</button>
+                                                    <button className={styles.qlNotInterested} onClick={() => handleQuickLog(lead, 'not_interested')}>👎 NOT INT.</button>
+                                                    <button className={styles.qlNoAnswer} onClick={() => handleQuickLog(lead, 'no_answer')}>📵 NO ANS.</button>
+                                                    <button className={styles.qlCallBack} onClick={() => handleQuickLog(lead, 'call_back')}>📞 CALL BACK</button>
+                                                    <button className={styles.qlWrong} onClick={() => handleQuickLog(lead, 'wrong_number')}>❌ WRONG #</button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </TronCard>
