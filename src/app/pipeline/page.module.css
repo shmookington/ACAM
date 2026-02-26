@@ -1,0 +1,459 @@
+/* ── Pipeline Tracker ── */
+.page {
+    min-height: 100vh;
+    position: relative;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.title {
+    font-family: var(--font-terminal);
+    font-size: 1.6rem;
+    color: var(--phosphor);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 10px var(--phosphor-glow);
+}
+
+.subtitle {
+    font-family: var(--font-terminal);
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+    letter-spacing: 0.06em;
+}
+
+.headerActions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Stats Banner */
+.statsBanner {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(0, 255, 65, 0.1);
+    background: rgba(0, 255, 65, 0.02);
+    flex: 1;
+    min-width: 80px;
+}
+
+.statVal {
+    font-family: var(--font-terminal);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--phosphor);
+}
+
+.statLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    margin-top: 0.1rem;
+}
+
+/* Filter Tabs */
+.filterTabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+}
+
+.filterTab {
+    font-family: var(--font-terminal);
+    font-size: 0.72rem;
+    padding: 0.5rem 0.8rem;
+    background: transparent;
+    border: 1px solid rgba(0, 255, 65, 0.1);
+    color: var(--text-dim);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+}
+
+.filterTab:hover {
+    border-color: rgba(0, 255, 65, 0.3);
+    color: var(--phosphor);
+}
+
+.filterTabActive {
+    background: rgba(0, 255, 65, 0.08);
+    border-color: var(--phosphor);
+    color: var(--phosphor);
+}
+
+.filterTabUrgent {
+    animation: urgentPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+
+    0%,
+    100% {
+        border-color: rgba(255, 51, 51, 0.3);
+    }
+
+    50% {
+        border-color: #ff3333;
+        background: rgba(255, 51, 51, 0.06);
+    }
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.8rem 1.2rem;
+    font-family: var(--font-terminal);
+    font-size: 0.82rem;
+    z-index: 999;
+    border: 1px solid;
+    animation: toastIn 0.3s ease;
+}
+
+.toast_success {
+    background: rgba(0, 255, 65, 0.1);
+    border-color: var(--phosphor);
+    color: var(--phosphor);
+}
+
+.toast_warn {
+    background: rgba(255, 176, 0, 0.1);
+    border-color: #ffb000;
+    color: #ffb000;
+}
+
+.toast_error {
+    background: rgba(255, 51, 51, 0.1);
+    border-color: #ff3333;
+    color: #ff3333;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.emptyState {
+    text-align: center;
+    padding: 3rem;
+    font-family: var(--font-terminal);
+    color: var(--text-dim);
+}
+
+/* Lead List */
+.leadList {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.leadRow {
+    border: 1px solid rgba(0, 255, 65, 0.08);
+    background: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.leadRow:hover {
+    border-color: rgba(0, 255, 65, 0.2);
+    background: rgba(0, 255, 65, 0.02);
+}
+
+.leadRowOverdue {
+    border-left: 3px solid #ff3333;
+}
+
+.leadRowDead {
+    opacity: 0.5;
+}
+
+.leadMain {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem 0.8rem;
+}
+
+/* Temperature Dot */
+.tempDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px currentColor;
+}
+
+/* Lead Info */
+.leadInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.leadName {
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
+    color: #e0e0e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.leadMeta {
+    font-family: var(--font-terminal);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+}
+
+/* Stage Badge */
+.stageBadge {
+    font-family: var(--font-terminal);
+    font-size: 0.62rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Engagement Stats */
+.engagementStats {
+    display: flex;
+    gap: 0.8rem;
+    flex-shrink: 0;
+}
+
+.engStat {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-terminal);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+}
+
+.engIcon {
+    font-size: 0.8rem;
+}
+
+.replyBadge {
+    font-size: 0.62rem;
+    color: #00ff41;
+    font-weight: 700;
+}
+
+/* Next Action */
+.nextAction {
+    min-width: 120px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.nextActionUrgent {
+    font-family: var(--font-terminal);
+    font-size: 0.68rem;
+    color: #ff3333;
+    font-weight: 700;
+    animation: urgentPulse 1.5s ease-in-out infinite;
+    padding: 0.15rem 0.4rem;
+    border: 1px solid rgba(255, 51, 51, 0.3);
+}
+
+.nextActionNormal {
+    font-family: var(--font-terminal);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+}
+
+.nextActionDone {
+    font-family: var(--font-terminal);
+    font-size: 0.68rem;
+    color: #00ff41;
+}
+
+.expandArrow {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    width: 14px;
+    text-align: center;
+}
+
+/* Expanded Detail */
+.leadDetail {
+    border-top: 1px solid rgba(0, 255, 65, 0.08);
+    padding: 0.8rem;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.detailColumns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.detailTitle {
+    font-family: var(--font-terminal);
+    font-size: 0.72rem;
+    color: var(--phosphor);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+/* Activity Timeline */
+.activityTimeline {}
+
+.timelineItem {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.timelineIcon {
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.timelineEmail {}
+
+.timelineCall {}
+
+.timelineContent {
+    flex: 1;
+}
+
+.timelineLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.72rem;
+    color: #ccc;
+}
+
+.timelineDate {
+    font-family: var(--font-terminal);
+    font-size: 0.62rem;
+    color: var(--text-dim);
+}
+
+.timelineDetail {
+    font-family: var(--font-terminal);
+    font-size: 0.62rem;
+    color: #888;
+    margin-top: 0.1rem;
+}
+
+.repliedTag {
+    color: #00ff41;
+    font-weight: 700;
+    font-size: 0.65rem;
+}
+
+.noActivity {
+    font-family: var(--font-terminal);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+}
+
+/* Lead Summary */
+.summaryGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+}
+
+.summaryItem {
+    display: flex;
+    flex-direction: column;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid rgba(0, 255, 65, 0.06);
+    background: rgba(0, 255, 65, 0.01);
+}
+
+.summaryLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.58rem;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.summaryVal {
+    font-family: var(--font-terminal);
+    font-size: 0.78rem;
+    color: #ccc;
+}
+
+.detailActions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+    flex-wrap: wrap;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+    .leadMain {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .engagementStats {
+        width: 100%;
+    }
+
+    .nextAction {
+        width: 100%;
+        text-align: left;
+    }
+
+    .detailColumns {
+        grid-template-columns: 1fr;
+    }
+
+    .statsBanner {
+        gap: 0.3rem;
+    }
+
+    .statItem {
+        padding: 0.3rem 0.5rem;
+    }
+}

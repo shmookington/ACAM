@@ -216,9 +216,10 @@ export default function DashboardPage() {
                         { icon: '/db', label: 'SAVED LEADS', desc: 'view pipeline', path: '/saved', delay: '0.10s' },
                         { icon: '@', label: 'EMAIL QUEUE', desc: 'drafts & sends', path: '/emails', delay: '0.15s' },
                         { icon: '☎', label: 'COLD CALLS', desc: 'dial prospects', path: '/saved?mode=calls', delay: '0.20s' },
-                        { icon: '//', label: 'CALENDAR', desc: 'schedule & track', path: '/calendar', delay: '0.25s' },
-                        { icon: '◈', label: 'PORTFOLIO', desc: 'case studies', path: '/portfolio', delay: '0.30s' },
-                        { icon: '⚔', label: 'STATS', desc: 'player rankings', path: '/stats', delay: '0.35s' },
+                        { icon: '◎', label: 'PIPELINE', desc: 'track every lead', path: '/pipeline', delay: '0.25s' },
+                        { icon: '//', label: 'CALENDAR', desc: 'schedule & track', path: '/calendar', delay: '0.30s' },
+                        { icon: '◈', label: 'PORTFOLIO', desc: 'case studies', path: '/portfolio', delay: '0.35s' },
+                        { icon: '⚔', label: 'STATS', desc: 'player rankings', path: '/stats', delay: '0.40s' },
                     ].map((action) => (
                         <button
                             key={action.path}
