@@ -409,6 +409,66 @@
     }
 }
 
+/* ── Run Scraper Hero Shimmer ── */
+.actionTileHero {
+    border-color: var(--phosphor) !important;
+    background: rgba(0, 255, 65, 0.06) !important;
+    box-shadow: 0 0 12px var(--phosphor-glow), 0 0 30px var(--phosphor-faint), var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+.actionTileHero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(0, 255, 65, 0.12) 30%,
+            rgba(0, 255, 65, 0.25) 50%,
+            rgba(0, 255, 65, 0.12) 70%,
+            transparent 100%);
+    animation: heroShimmer 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.actionTileHero .actionTileIcon {
+    text-shadow: 0 0 10px var(--phosphor), 0 0 20px var(--phosphor-glow);
+}
+
+.actionTileHero .actionTileLabel {
+    color: var(--phosphor);
+    text-shadow: 0 0 6px var(--phosphor-glow);
+}
+
+@keyframes heroShimmer {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        left: 150%;
+        opacity: 1;
+    }
+
+    51% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+        left: 150%;
+    }
+}
+
 /* --- World Domination Banner --- */
 .dominationBanner {
     position: relative;

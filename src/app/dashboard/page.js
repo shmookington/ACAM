@@ -212,7 +212,7 @@ export default function DashboardPage() {
                 {/* Quick Actions — Terminal Command Bar */}
                 <section className={`${styles.quickActions} animate-boot-in delay-2`}>
                     {[
-                        { icon: '>_', label: 'RUN SCRAPER', desc: 'scan new leads', path: '/leads', delay: '0.05s' },
+                        { icon: '>_', label: 'RUN SCRAPER', desc: 'scan new leads', path: '/leads', delay: '0.05s', hero: true },
                         { icon: '/db', label: 'SAVED LEADS', desc: 'view pipeline', path: '/saved', delay: '0.10s' },
                         { icon: '@', label: 'EMAIL QUEUE', desc: 'drafts & sends', path: '/emails', delay: '0.15s' },
                         { icon: '☎', label: 'COLD CALLS', desc: 'dial prospects', path: '/saved?mode=calls', delay: '0.20s' },
@@ -222,7 +222,7 @@ export default function DashboardPage() {
                     ].map((action) => (
                         <button
                             key={action.path}
-                            className={styles.actionTile}
+                            className={`${styles.actionTile} ${action.hero ? styles.actionTileHero : ''}`}
                             onClick={() => router.push(action.path)}
                             style={{ animationDelay: action.delay }}
                         >
