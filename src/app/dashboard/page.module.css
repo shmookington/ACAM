@@ -516,6 +516,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 .sectionIcon {
@@ -580,6 +582,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 .widgetLead {
@@ -628,6 +632,9 @@
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .widgetActions {
@@ -1057,6 +1064,49 @@
     .leaderboardStats {
         flex-wrap: wrap;
         gap: 0.25rem;
+    }
+
+    /* Intelligence widgets — contain overflow */
+    .intelligenceGrid {
+        gap: 0.75rem;
+    }
+
+    .widgetLead {
+        padding: 0.4rem 0.5rem;
+        gap: 0.4rem;
+    }
+
+    .widgetLeadInfo strong {
+        font-size: 0.82rem;
+    }
+
+    .widgetLeadMeta {
+        font-size: 0.7rem;
+    }
+
+    .widgetRank {
+        font-size: 0.78rem;
+        min-width: 18px;
+    }
+
+    .widgetActions {
+        gap: 0.2rem;
+    }
+
+    .widgetActionBtn {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+
+    .widgetSubtitle {
+        font-size: 0.75rem;
+    }
+
+    .tooltipBtn {
+        width: 16px;
+        height: 16px;
+        font-size: 0.7rem;
     }
 
     /* Modal */
