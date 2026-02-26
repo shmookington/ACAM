@@ -219,8 +219,10 @@
 /* Actions */
 .emailActions {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 0.5rem;
-    padding-top: 0.5rem;
+    padding-top: 0.75rem;
     border-top: 1px solid var(--border);
 }
 
@@ -281,27 +283,39 @@
 }
 
 .attachToggle {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.4rem;
     font-family: var(--font-terminal, var(--font-mono));
     font-size: 0.75rem;
     color: var(--text-dim);
     cursor: pointer;
-    padding: 0.2rem 0.5rem;
-    border: 1px solid rgba(0, 255, 65, 0.15);
+    padding: 0.3rem 0.6rem;
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    background: rgba(0, 255, 65, 0.03);
     transition: all 0.2s;
     user-select: none;
+    white-space: nowrap;
 }
 
 .attachToggle:hover {
-    border-color: rgba(0, 255, 65, 0.4);
+    border-color: rgba(0, 255, 65, 0.5);
     color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.06);
+}
+
+.attachToggle:has(input:checked) {
+    border-color: var(--phosphor);
+    color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 6px var(--phosphor-glow);
 }
 
 .attachToggle input[type="checkbox"] {
     accent-color: var(--phosphor);
     cursor: pointer;
+    width: 14px;
+    height: 14px;
 }
 
 /* ── Mobile ── */
