@@ -468,20 +468,23 @@
 }
 
 .scriptBtn {
-    background: rgba(0, 255, 65, 0.03);
-    border: 1px solid rgba(0, 255, 65, 0.15);
-    color: var(--text-dim);
+    background: rgba(0, 212, 255, 0.08);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    color: #00d4ff;
     font-family: var(--font-terminal);
     font-size: 0.70rem;
     padding: 0.2rem 0.5rem;
     cursor: pointer;
     text-transform: uppercase;
     transition: all var(--transition-fast);
+    letter-spacing: 0.04em;
 }
 
 .scriptBtn:hover {
-    border-color: rgba(0, 255, 65, 0.4);
-    color: var(--phosphor);
+    border-color: #00d4ff;
+    color: #fff;
+    background: rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
 }
 
 .quickLogPanel {
