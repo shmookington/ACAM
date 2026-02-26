@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { US_CITIES } from '@/lib/us-cities';
@@ -43,6 +43,7 @@ export default function MapPage() {
     const [scanning, setScanning] = useState(false);
     const [scanResult, setScanResult] = useState(null);
     const router = useRouter();
+    const mapComponentRef = useRef(null);
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -66,49 +67,11 @@ export default function MapPage() {
         if (!loading) fetchMapData();
     }, [loading, fetchMapData]);
 
-    // ── Click-to-Scan from map ──
-    const handleMapScan = async () => {
-        if (!selectedCity || scanning) return;
+    // ── Click-to-Scan: navigate to leads page with city pre-filled ──
+    const handleMapScan = () => {
+        if (!selectedCity) return;
         const location = `${selectedCity.city}, ${selectedCity.state}`;
-        setScanning(true);
-        setScanResult(null);
-
-        try {
-            const res = await fetch('/api/scrape', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ location, category: scanCategory }),
-            });
-            const data = await res.json();
-
-            if (res.ok && data.results) {
-                // Save all results directly
-                const saveRes = await fetch('/api/leads', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ leads: data.results }),
-                });
-                const saveData = await saveRes.json();
-
-                const savedCount = saveData.saved?.length || 0;
-                const skippedCount = saveData.skipped?.length || 0;
-                const total = data.results.length;
-
-                setScanResult({
-                    type: 'success',
-                    message: `${total} businesses found — ${savedCount} saved${skippedCount > 0 ? `, ${skippedCount} already existed` : ''}`,
-                });
-
-                // Refresh map data to show the new conquest
-                await fetchMapData();
-            } else {
-                setScanResult({ type: 'error', message: data.error || 'Scan failed' });
-            }
-        } catch (err) {
-            setScanResult({ type: 'error', message: err.message });
-        } finally {
-            setScanning(false);
-        }
+        router.push(`/leads?city=${encodeURIComponent(location)}&category=${encodeURIComponent(scanCategory)}`);
     };
 
     if (loading) {
@@ -187,6 +150,7 @@ export default function MapPage() {
                         </div>
                     ) : (
                         <DominationMap
+                            ref={mapComponentRef}
                             allCities={US_CITIES}
                             conqueredCities={conqueredCities}
                             players={players}
@@ -310,11 +274,10 @@ export default function MapPage() {
                                         </select>
                                         <TronButton
                                             onClick={handleMapScan}
-                                            loading={scanning}
                                             size="sm"
                                             variant="primary"
                                         >
-                                            {scanning ? 'SCANNING...' : '⚡ SCAN'}
+                                            [{'>'}] SCAN ON LEADS PAGE
                                         </TronButton>
                                     </div>
 
@@ -420,7 +383,12 @@ export default function MapPage() {
                                         <button
                                             key={`${city.city}-${city.state}`}
                                             className={styles.cityLeaderRow}
-                                            onClick={() => setSelectedCity({ ...city, conquered: null })}
+                                            onClick={() => {
+                                                setSelectedCity({ ...city, conquered: null });
+                                                if (mapComponentRef.current) {
+                                                    mapComponentRef.current.flyTo(city.lat, city.lng, 10);
+                                                }
+                                            }}
                                         >
                                             <span className={styles.cityLeaderDot} style={{ background: getHeatColor(city.opportunityScore) }} />
                                             <span className={styles.cityLeaderName}>{city.city}, {city.state}</span>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import styles from './page.module.css';
 
 const PLAYER_COLORS = {
@@ -10,17 +10,15 @@ const PLAYER_COLORS = {
 };
 
 // Heat color from opportunity score (0-100)
-// Low opportunity = cool blue, Medium = warm amber, High = hot red/magenta
 function getHeatColor(score) {
-    if (score >= 80) return '#ff2d55'; // hot magenta
-    if (score >= 60) return '#ff6b35'; // hot orange
-    if (score >= 45) return '#ffb000'; // warm amber
-    if (score >= 30) return '#ff8c00'; // mild orange
-    if (score >= 15) return '#7a5af5'; // cool purple
-    return '#3a3f9e'; // cold blue
+    if (score >= 80) return '#ff2d55';
+    if (score >= 60) return '#ff6b35';
+    if (score >= 45) return '#ffb000';
+    if (score >= 30) return '#ff8c00';
+    if (score >= 15) return '#7a5af5';
+    return '#3a3f9e';
 }
 
-// Get conquest color (green shades) — used when a city is conquered
 function getConquestColor(pct) {
     if (pct >= 75) return '#00ff41';
     if (pct >= 50) return '#ffb000';
@@ -28,10 +26,19 @@ function getConquestColor(pct) {
     return '#ff3333';
 }
 
-export default function DominationMap({ allCities = [], conqueredCities = [], players = [], onCityClick }) {
+const DominationMap = forwardRef(function DominationMap({ allCities = [], conqueredCities = [], players = [], onCityClick }, ref) {
     const mapRef = useRef(null);
     const mapInstanceRef = useRef(null);
     const markersRef = useRef([]);
+
+    // Expose flyTo method to parent
+    useImperativeHandle(ref, () => ({
+        flyTo(lat, lng, zoom = 10) {
+            if (mapInstanceRef.current) {
+                mapInstanceRef.current.flyTo([lat, lng], zoom, { duration: 1.2 });
+            }
+        },
+    }));
 
     useEffect(() => {
         if (mapInstanceRef.current) return;
@@ -113,7 +120,6 @@ export default function DominationMap({ allCities = [], conqueredCities = [], pl
             let color, glowIntensity, markerSize, labelSuffix;
 
             if (isConquered) {
-                // Conquered city — show dominant player color or conquest color
                 const topPlayer = getTopPlayer(conquered);
                 if (topPlayer) {
                     color = PLAYER_COLORS[topPlayer] || '#00ff41';
@@ -124,7 +130,6 @@ export default function DominationMap({ allCities = [], conqueredCities = [], pl
                 markerSize = Math.min(Math.max(conquered.total * 1.5, 10), 40);
                 labelSuffix = `${conquered.total} leads · ${conquered.conquestPct}%`;
             } else {
-                // Unconquered city — heat signature based on opportunity
                 color = getHeatColor(city.opportunityScore);
                 glowIntensity = 0.15 + (city.opportunityScore / 100) * 0.25;
                 markerSize = Math.min(Math.max((city.population / 50000), 8), 24);
@@ -160,7 +165,7 @@ export default function DominationMap({ allCities = [], conqueredCities = [], pl
                 weight: 0,
             }).addTo(map);
 
-            // Label (only show at zoom > 5 for non-conquered, always show conquered)
+            // Label
             const labelIcon = L.divIcon({
                 className: styles.mapLabel,
                 html: `
@@ -174,17 +179,10 @@ export default function DominationMap({ allCities = [], conqueredCities = [], pl
             });
             const labelMarker = L.marker([city.lat, city.lng], { icon: labelIcon, interactive: false }).addTo(map);
 
-            // Build popup
-            const popupHtml = buildPopupHtml(city, conquered, color, isConquered);
-            marker.bindPopup(popupHtml, {
-                className: styles.tronPopup,
-                closeButton: true,
-                maxWidth: 320,
-            });
-
-            // Click handler
+            // Click handler — select city AND fly to it
             marker.on('click', () => {
                 if (onCityClick) onCityClick({ ...city, conquered });
+                map.flyTo([city.lat, city.lng], 10, { duration: 1.0 });
             });
 
             // Hover effects
@@ -205,7 +203,6 @@ export default function DominationMap({ allCities = [], conqueredCities = [], pl
                 if (!isConquered && zoom < 5) {
                     labelMarker.setOpacity(0);
                 } else if (!isConquered && zoom < 7) {
-                    // Only show larger cities at mid-zoom
                     labelMarker.setOpacity(city.population > 200000 ? 1 : 0);
                 } else {
                     labelMarker.setOpacity(1);
@@ -236,64 +233,10 @@ export default function DominationMap({ allCities = [], conqueredCities = [], pl
         return topPlayer;
     }
 
-    function buildPopupHtml(city, conquered, color, isConquered) {
-        const statusLine = isConquered
-            ? `<div style="color:${color};font-size:17px;margin-bottom:10px;letter-spacing:0.06em;">CONQUERED — ${conquered.conquestPct}%</div>`
-            : `<div style="color:${color};font-size:17px;margin-bottom:10px;letter-spacing:0.06em;">UNCONQUERED — OPPORTUNITY: ${city.opportunityScore}/100</div>`;
-
-        const statsGrid = isConquered ? `
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;margin-bottom:12px;border:1px solid rgba(0,255,65,0.15);padding:10px 0;">
-                <div><div style="color:#fff;font-size:22px;">${conquered.total}</div><div style="color:#888;font-size:13px;margin-top:2px;">TOTAL</div></div>
-                <div><div style="color:#00d4ff;font-size:22px;">${conquered.statuses?.contacted || 0}</div><div style="color:#888;font-size:13px;margin-top:2px;">HIT UP</div></div>
-                <div><div style="color:#ffb000;font-size:22px;">${conquered.statuses?.meeting || 0}</div><div style="color:#888;font-size:13px;margin-top:2px;">MEETINGS</div></div>
-                <div><div style="color:#00ff41;font-size:22px;">${conquered.statuses?.closed || 0}</div><div style="color:#888;font-size:13px;margin-top:2px;">CLOSED</div></div>
-            </div>
-        ` : `
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;text-align:center;margin-bottom:12px;border:1px solid rgba(0,255,65,0.1);padding:12px 0;">
-                <div><div style="color:#fff;font-size:22px;">${formatPop(city.population)}</div><div style="color:#888;font-size:13px;margin-top:2px;">POPULATION</div></div>
-                <div><div style="color:#ffb000;font-size:22px;">$${formatIncome(city.income)}</div><div style="color:#888;font-size:13px;margin-top:2px;">MED. INCOME</div></div>
-            </div>
-        `;
-
-        // Player breakdown for conquered cities
-        let playerHtml = '';
-        if (isConquered && conquered.players) {
-            const playerLines = Object.entries(conquered.players).map(([name, stats]) => {
-                const pColor = PLAYER_COLORS[name] || '#fff';
-                return `<div style="display:flex;align-items:center;gap:8px;margin:4px 0;font-size:15px;">
-                    <span style="width:10px;height:10px;background:${pColor};box-shadow:0 0 6px ${pColor};display:inline-block;"></span>
-                    <span style="color:#ccc;">${name}</span>
-                    <span style="margin-left:auto;color:${pColor};font-weight:bold;">${stats.total}</span>
-                </div>`;
-            }).join('');
-            playerHtml = `<div style="border-top:1px solid rgba(0,255,65,0.1);padding-top:8px;margin-top:6px;">
-                <div style="color:#888;font-size:13px;letter-spacing:0.1em;margin-bottom:4px;">PLAYERS</div>${playerLines}
-            </div>`;
-        }
-
-        const scanPrompt = !isConquered ? `
-            <div style="border-top:1px solid rgba(0,255,65,0.1);padding-top:10px;margin-top:10px;text-align:center;">
-                <div style="color:${color};font-size:15px;letter-spacing:0.08em;">
-                    ▶ CLICK TO START SCANNING
-                </div>
-            </div>
-        ` : '';
-
-        return `
-            <div style="font-family:'VT323','Courier New',monospace;background:#0a0a0a;border:1px solid ${color};padding:16px 20px;min-width:260px;">
-                <div style="font-size:26px;color:${color};text-shadow:0 0 8px ${color};margin-bottom:6px;letter-spacing:0.12em;">
-                    ${city.city}, ${city.state}
-                </div>
-                ${statusLine}
-                ${statsGrid}
-                ${playerHtml}
-                ${scanPrompt}
-            </div>
-        `;
-    }
-
     return <div ref={mapRef} className={styles.leafletMap} />;
-}
+});
+
+export default DominationMap;
 
 function formatPop(n) {
     if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
