@@ -19,7 +19,7 @@ const PLAYER_COLORS = {
 };
 
 const PLAYER_AVATARS = {
-    'Amiri': '👑',
+    'Amiri': '😈',
     'Toby': '⚡',
     'Yaz': '🎯',
 };
