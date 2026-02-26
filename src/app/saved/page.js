@@ -44,7 +44,6 @@ function SavedLeadsInner() {
     const [teamFilter, setTeamFilter] = useState('all');
     const [sortBy, setSortBy] = useState('newest');
     const [quickLogId, setQuickLogId] = useState(null);
-    const [scheduleCallId, setScheduleCallId] = useState(null);
 
     // Get current user session
     useEffect(() => {
@@ -904,9 +903,6 @@ function SavedLeadsInner() {
                                                 <button className={styles.scriptBtn} onClick={() => handleOpenDialer(lead)}>
                                                     📋 SCRIPT
                                                 </button>
-                                                <button className={styles.scheduleBtn} onClick={(e) => { e.stopPropagation(); setScheduleCallId(scheduleCallId === lead.id ? null : lead.id); }}>
-                                                    📅 {lead.callback_date ? new Date(lead.callback_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'SCHEDULE'}
-                                                </button>
                                                 <button className={styles.caseStudyBtn} onClick={() => handleOpenCaseStudy(lead)}>
                                                     📸 Case Study
                                                 </button>
@@ -1721,65 +1717,6 @@ function SavedLeadsInner() {
                     </div>
                 )}
             </div>
-
-            {/* ── Schedule Calendar Overlay ── */}
-            {scheduleCallId && (() => {
-                const scheduleLead = leads.find(l => l.id === scheduleCallId);
-                if (!scheduleLead) return null;
-                const now = new Date();
-                const calYear = scheduleLead._calYear ?? now.getFullYear();
-                const calMonth = scheduleLead._calMonth ?? now.getMonth();
-                const daysInMo = new Date(calYear, calMonth + 1, 0).getDate();
-                const startDay = new Date(calYear, calMonth, 1).getDay();
-                const todayStr = now.toISOString().split('T')[0];
-                const moName = new Date(calYear, calMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-                return (
-                    <div className={styles.calOverlay} onClick={() => setScheduleCallId(null)}>
-                        <div className={styles.calModal} onClick={(e) => e.stopPropagation()}>
-                            <div className={styles.calModalTitle}>
-                                📅 Schedule Call — {scheduleLead.business_name}
-                            </div>
-                            <div className={styles.miniCalHeader}>
-                                <button className={styles.miniCalNav} onClick={() => {
-                                    const prev = calMonth === 0 ? 11 : calMonth - 1;
-                                    const yr = calMonth === 0 ? calYear - 1 : calYear;
-                                    setLeads(ls => ls.map(l => l.id === scheduleLead.id ? { ...l, _calYear: yr, _calMonth: prev } : l));
-                                }}>◀</button>
-                                <span className={styles.miniCalMonth}>{moName}</span>
-                                <button className={styles.miniCalNav} onClick={() => {
-                                    const next = calMonth === 11 ? 0 : calMonth + 1;
-                                    const yr = calMonth === 11 ? calYear + 1 : calYear;
-                                    setLeads(ls => ls.map(l => l.id === scheduleLead.id ? { ...l, _calYear: yr, _calMonth: next } : l));
-                                }}>▶</button>
-                            </div>
-                            <div className={styles.miniCalDays}>
-                                {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map((d, i) => <span key={i} className={styles.miniCalDayLabel}>{d}</span>)}
-                                {Array.from({ length: startDay }, (_, i) => <span key={`e${i}`} />)}
-                                {Array.from({ length: daysInMo }, (_, i) => {
-                                    const d = i + 1;
-                                    const dateStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-                                    const isToday = dateStr === todayStr;
-                                    const isPast = dateStr < todayStr;
-                                    return (
-                                        <button
-                                            key={d}
-                                            className={`${styles.miniCalDay} ${isToday ? styles.miniCalDayToday : ''} ${isPast ? styles.miniCalDayPast : ''}`}
-                                            disabled={isPast}
-                                            onClick={async () => {
-                                                await supabase.from('leads').update({ callback_date: dateStr }).eq('id', scheduleLead.id);
-                                                setScheduleCallId(null);
-                                                fetchLeads();
-                                                setGenResult({ type: 'success', message: `📅 Call scheduled for ${new Date(dateStr + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — ${scheduleLead.business_name}` });
-                                            }}
-                                        >{d}</button>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                );
-            })()}
         </div>
     );
 }
