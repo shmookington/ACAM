@@ -383,6 +383,8 @@
     gap: 0.75rem;
     flex-wrap: wrap;
     position: relative;
+    overflow: visible;
+    z-index: 2;
 }
 
 .leadLinks a {
@@ -511,14 +513,14 @@
 /* ── Custom Mini Calendar ── */
 .miniCal {
     position: absolute;
-    z-index: 50;
-    top: 100%;
+    z-index: 999;
+    bottom: 100%;
     left: 0;
-    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
     width: 260px;
-    background: rgba(8, 8, 8, 0.97);
-    border: 1px solid rgba(0, 255, 65, 0.3);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 0 12px rgba(0, 255, 65, 0.08);
+    background: #0a0a0a;
+    border: 1px solid rgba(0, 255, 65, 0.4);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 255, 65, 0.1);
     padding: 0.6rem;
     animation: miniCalIn 0.15s ease-out;
 }
