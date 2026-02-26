@@ -282,40 +282,92 @@
     letter-spacing: 0.04em;
 }
 
-.attachToggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+/* Attach Proposal Button */
+.attachBtn {
     font-family: var(--font-terminal, var(--font-mono));
     font-size: 0.75rem;
     color: var(--text-dim);
     cursor: pointer;
     padding: 0.3rem 0.6rem;
-    border: 1px solid rgba(0, 255, 65, 0.2);
-    background: rgba(0, 255, 65, 0.03);
+    border: 1px solid rgba(255, 140, 0, 0.25);
+    background: rgba(255, 140, 0, 0.04);
     transition: all 0.2s;
-    user-select: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     white-space: nowrap;
 }
 
-.attachToggle:hover {
-    border-color: rgba(0, 255, 65, 0.5);
-    color: var(--phosphor);
-    background: rgba(0, 255, 65, 0.06);
+.attachBtn:hover {
+    border-color: rgba(255, 140, 0, 0.5);
+    color: #ffb000;
+    background: rgba(255, 140, 0, 0.08);
 }
 
-.attachToggle:has(input:checked) {
-    border-color: var(--phosphor);
-    color: var(--phosphor);
-    background: rgba(0, 255, 65, 0.1);
-    box-shadow: 0 0 6px var(--phosphor-glow);
+.attachBtnActive {
+    border-color: #ffb000;
+    color: #111;
+    background: #ffb000;
+    box-shadow: 0 0 8px rgba(255, 176, 0, 0.4);
+    font-weight: 700;
 }
 
-.attachToggle input[type="checkbox"] {
-    accent-color: var(--phosphor);
-    cursor: pointer;
-    width: 14px;
-    height: 14px;
+.attachBtnActive:hover {
+    background: #ffc233;
+}
+
+/* Recipient Line */
+.recipientLine {
+    font-family: var(--font-terminal, var(--font-mono));
+    font-size: 0.78rem;
+    color: var(--phosphor);
+    margin-top: 0.15rem;
+    letter-spacing: 0.04em;
+}
+
+.recipientLabel {
+    font-weight: 700;
+    color: var(--text-dim);
+    margin-right: 0.3rem;
+}
+
+.noRecipient {
+    color: var(--red-alert, #ff3333);
+    opacity: 0.7;
+}
+
+/* Reply Banner */
+.replyBanner {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    background: rgba(0, 255, 65, 0.04);
+    font-family: var(--font-terminal, var(--font-mono));
+    font-size: 0.82rem;
+    color: var(--phosphor);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.replyCount {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--phosphor);
+    text-shadow: 0 0 8px var(--phosphor-glow);
+    min-width: 2rem;
+    text-align: center;
+}
+
+/* Replied Tab */
+.filterTabReplied {
+    border-color: rgba(0, 255, 65, 0.15) !important;
+}
+
+/* Replied Tag */
+.repliedTag {
+    color: var(--phosphor);
+    font-weight: 600;
 }
 
 /* ── Mobile ── */
