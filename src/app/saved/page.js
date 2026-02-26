@@ -44,6 +44,7 @@ function SavedLeadsInner() {
     const [teamFilter, setTeamFilter] = useState('all');
     const [sortBy, setSortBy] = useState('newest');
     const [quickLogId, setQuickLogId] = useState(null);
+    const [scheduleCallId, setScheduleCallId] = useState(null);
 
     // Get current user session
     useEffect(() => {
@@ -903,6 +904,27 @@ function SavedLeadsInner() {
                                                 <button className={styles.scriptBtn} onClick={() => handleOpenDialer(lead)}>
                                                     📋 SCRIPT
                                                 </button>
+                                                {scheduleCallId === lead.id ? (
+                                                    <input
+                                                        type="date"
+                                                        className={styles.scheduleInput}
+                                                        autoFocus
+                                                        min={new Date().toISOString().split('T')[0]}
+                                                        onBlur={() => setScheduleCallId(null)}
+                                                        onChange={async (e) => {
+                                                            const date = e.target.value;
+                                                            if (!date) return;
+                                                            await supabase.from('leads').update({ callback_date: date }).eq('id', lead.id);
+                                                            setScheduleCallId(null);
+                                                            fetchLeads();
+                                                            setGenResult({ type: 'success', message: `📅 Call scheduled for ${new Date(date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — ${lead.business_name}` });
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <button className={styles.scheduleBtn} onClick={(e) => { e.stopPropagation(); setScheduleCallId(lead.id); }}>
+                                                        📅 {lead.callback_date ? new Date(lead.callback_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'SCHEDULE'}
+                                                    </button>
+                                                )}
                                                 <button className={styles.caseStudyBtn} onClick={() => handleOpenCaseStudy(lead)}>
                                                     📸 Case Study
                                                 </button>

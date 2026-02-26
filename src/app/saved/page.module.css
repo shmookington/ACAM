@@ -487,6 +487,36 @@
     box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
 }
 
+.scheduleBtn {
+    background: rgba(0, 255, 65, 0.06);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    color: var(--phosphor);
+    font-family: var(--font-terminal);
+    font-size: 0.70rem;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all var(--transition-fast);
+    letter-spacing: 0.04em;
+}
+
+.scheduleBtn:hover {
+    border-color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.12);
+    box-shadow: 0 0 6px rgba(0, 255, 65, 0.3);
+}
+
+.scheduleInput {
+    font-family: var(--font-terminal);
+    font-size: 0.72rem;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--phosphor);
+    color: var(--phosphor);
+    padding: 0.2rem 0.4rem;
+    outline: none;
+    color-scheme: dark;
+}
+
 .quickLogPanel {
     border-top: 1px solid rgba(0, 255, 65, 0.15);
     padding: 0.5rem 0 0.2rem;
