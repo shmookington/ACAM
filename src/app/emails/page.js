@@ -18,6 +18,7 @@ export default function EmailQueuePage() {
     const [activeTab, setActiveTab] = useState('draft');
     const [toast, setToast] = useState(null);
     const [confirmApproveId, setConfirmApproveId] = useState(null);
+    const [attachProposalIds, setAttachProposalIds] = useState(new Set());
     const [userEmail, setUserEmail] = useState('');
     const router = useRouter();
 
@@ -96,10 +97,11 @@ export default function EmailQueuePage() {
     const sendEmail = async (email) => {
         setSendingIds(prev => new Set([...prev, email.id]));
         try {
+            const shouldAttach = attachProposalIds.has(email.id);
             const res = await fetch('/api/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ outreachId: email.id }),
+                body: JSON.stringify({ outreachId: email.id, attachProposal: shouldAttach }),
             });
             const data = await res.json();
             if (res.ok) {
@@ -202,7 +204,24 @@ export default function EmailQueuePage() {
                                     )
                                 )}
                                 {email.status === 'approved' && (
-                                    <TronButton onClick={() => sendEmail(email)} loading={isSending} size="sm" variant="primary">🚀 Send</TronButton>
+                                    <>
+                                        <label className={styles.attachToggle}>
+                                            <input
+                                                type="checkbox"
+                                                checked={attachProposalIds.has(email.id)}
+                                                onChange={() => {
+                                                    setAttachProposalIds(prev => {
+                                                        const next = new Set(prev);
+                                                        if (next.has(email.id)) next.delete(email.id);
+                                                        else next.add(email.id);
+                                                        return next;
+                                                    });
+                                                }}
+                                            />
+                                            📎 Attach Proposal
+                                        </label>
+                                        <TronButton onClick={() => sendEmail(email)} loading={isSending} size="sm" variant="primary">🚀 Send</TronButton>
+                                    </>
                                 )}
                                 <TronButton onClick={() => rejectEmail(email.id)} size="sm" variant="danger">✕ Delete</TronButton>
                             </>

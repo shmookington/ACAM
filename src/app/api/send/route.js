@@ -15,7 +15,7 @@ const supabase = createClient(
  */
 export async function POST(request) {
     try {
-        const { outreachId } = await request.json();
+        const { outreachId, attachProposal } = await request.json();
 
         if (!outreachId) {
             return NextResponse.json({ error: 'outreachId is required' }, { status: 400 });
@@ -43,10 +43,26 @@ export async function POST(request) {
         const lead = outreach.leads;
         const recipientEmail = lead?.email;
 
+        // Generate proposal PDF attachment if requested
+        let attachments = null;
+        if (attachProposal && lead) {
+            try {
+                const { generateProposalContent, buildProposalPDF } = await import('@/lib/proposal');
+                const content = await generateProposalContent(lead);
+                const pdfBytes = await buildProposalPDF(lead, content);
+                const filename = `Caelborne_Proposal_${lead.business_name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+                attachments = [{
+                    filename,
+                    content: Buffer.from(pdfBytes),
+                    contentType: 'application/pdf',
+                }];
+            } catch (pdfErr) {
+                console.error('Proposal PDF generation error:', pdfErr);
+                // Continue sending without attachment
+            }
+        }
+
         if (!recipientEmail) {
-            // For now, since we don't always have the lead's email,
-            // we'll mark as sent but log that no email was available
-            // In production, you'd want to handle this differently
             const { error: updateErr } = await supabase
                 .from('outreach')
                 .update({
@@ -60,7 +76,6 @@ export async function POST(request) {
                 return NextResponse.json({ error: 'Failed to update status' }, { status: 500 });
             }
 
-            // Update lead status + auto-schedule follow-up
             if (lead?.id) {
                 const followUpDate = new Date();
                 followUpDate.setDate(followUpDate.getDate() + 3);
@@ -79,8 +94,8 @@ export async function POST(request) {
             });
         }
 
-        // Send the email via Resend
-        const result = await sendEmail(recipientEmail, outreach.email_subject, outreach.email_body);
+        // Send the email via Gmail SMTP (with optional proposal attachment)
+        const result = await sendEmail(recipientEmail, outreach.email_subject, outreach.email_body, null, attachments);
 
         if (!result.success) {
             return NextResponse.json(

@@ -280,6 +280,30 @@
     letter-spacing: 0.04em;
 }
 
+.attachToggle {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-terminal, var(--font-mono));
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid rgba(0, 255, 65, 0.15);
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.attachToggle:hover {
+    border-color: rgba(0, 255, 65, 0.4);
+    color: var(--phosphor);
+}
+
+.attachToggle input[type="checkbox"] {
+    accent-color: var(--phosphor);
+    cursor: pointer;
+}
+
 /* ── Mobile ── */
 @media (max-width: 640px) {
     .container {

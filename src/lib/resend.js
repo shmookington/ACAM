@@ -18,9 +18,10 @@ const FROM_EMAIL = process.env.GMAIL_USER;
  * @param {string} subject - email subject line
  * @param {string} body - email body (plain text)
  * @param {string} [html] - optional HTML body
+ * @param {Array} [attachments] - optional Nodemailer attachments array
  * @returns {{ success: boolean, messageId?: string, error?: string }}
  */
-export async function sendEmail(to, subject, body, html = null) {
+export async function sendEmail(to, subject, body, html = null, attachments = null) {
     try {
         const mailOptions = {
             from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
@@ -31,6 +32,10 @@ export async function sendEmail(to, subject, body, html = null) {
 
         if (html) {
             mailOptions.html = html;
+        }
+
+        if (attachments && attachments.length > 0) {
+            mailOptions.attachments = attachments;
         }
 
         const info = await transporter.sendMail(mailOptions);
