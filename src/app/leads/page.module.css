@@ -687,4 +687,33 @@
         gap: 0.5rem;
         align-items: center;
     }
+
+    .container {
+        padding: 0.75rem;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+
+    .scanControls {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .resultCard {
+        padding: 0.6rem;
+    }
+
+    .resultName {
+        font-size: 0.9rem;
+    }
+
+    .scanTerminal {
+        font-size: 0.78rem;
+    }
+
+    .termBody {
+        max-height: 200px;
+    }
 }

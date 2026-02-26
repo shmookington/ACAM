@@ -142,3 +142,32 @@
   opacity: 0;
   animation: fadeIn 0.5s 1.5s ease both;
 }
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .loginPage {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .title {
+    font-size: 3rem;
+    letter-spacing: 0.15em;
+  }
+
+  .subtitle {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+  }
+
+  .loginContainer {
+    gap: var(--space-4);
+  }
+
+  .systemStatus {
+    font-size: 0.82rem;
+  }
+
+  .footer {
+    font-size: 0.78rem;
+  }
+}

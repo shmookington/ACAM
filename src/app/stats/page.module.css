@@ -593,6 +593,14 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
+    .page {
+        padding: var(--space-4) var(--space-3);
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+
     .statsGrid {
         grid-template-columns: 1fr;
     }
@@ -607,6 +615,41 @@
 
     .profileHeader {
         flex-wrap: wrap;
-        gap: var(--space-4);
+        gap: var(--space-3);
+    }
+
+    .profileAvatar {
+        width: 52px;
+        height: 52px;
+        font-size: 1.8rem;
+    }
+
+    .profileName {
+        font-size: 1.2rem;
+    }
+
+    .weekVal {
+        font-size: 1.4rem;
+    }
+
+    .leaderboardCard {
+        padding: var(--space-4);
+    }
+
+    .lbAvatar {
+        width: 44px;
+        height: 44px;
+        font-size: 1.4rem;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .streakBadge {
+        flex-direction: row;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
     }
 }

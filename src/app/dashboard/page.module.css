@@ -939,18 +939,88 @@
     .header {
         flex-direction: column;
         gap: 0.75rem;
+        padding: 0.75rem 0.5rem;
+    }
+
+    .headerCenter {
+        display: none;
+    }
+
+    .greeting {
+        font-size: 1rem;
+    }
+
+    .clock {
+        font-size: 0.85rem;
     }
 
     .quickActions {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+    }
+
+    .actionTileIcon {
+        font-size: 1.2rem;
+    }
+
+    .actionTileLabel {
+        font-size: 0.72rem;
+    }
+
+    .actionTileDesc {
+        display: none;
+    }
+
+    .sectionTitle {
+        font-size: 0.78rem;
     }
 
     .callStatsRow {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .headerCenter {
-        display: none;
+    .callTrackingGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .queueAlertContent,
+    .callbackAlertContent {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .queueAlertIcon,
+    .callbackAlertIcon {
+        font-size: 1.2rem;
+    }
+
+    .dominationBannerIcon {
+        font-size: 1.5rem;
+    }
+
+    .dominationBannerText h3 {
+        font-size: 1rem;
+    }
+
+    .dominationBannerText p {
+        font-size: 0.75rem;
+    }
+
+    .sheetPanel {
+        width: 95vw;
+        max-height: 90vh;
+        padding: var(--space-4);
+    }
+
+    .leaderboardStats {
+        flex-wrap: wrap;
+        gap: 0.3rem;
+    }
+
+    .accountDropdown {
+        right: -0.5rem;
+        min-width: 180px;
     }
 }
 
