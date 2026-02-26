@@ -367,6 +367,9 @@ function SavedLeadsInner() {
                 { ...l, call_outcome: 'call_back', last_called_at: now, status: 'contacted', callback_date: callbackPicker.date } : l
             ));
 
+            const dateLabel = new Date(callbackPicker.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+            setGenResult({ type: 'success', message: `📅 CALLBACK SET — ${dialerLead.business_name} → ${dateLabel}` });
+
             setCallbackPicker(null);
             setDialerLead(null);
         } catch (err) {
