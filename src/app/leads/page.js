@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import TronGrid from '@/components/tron/TronGrid';
 import TronCard from '@/components/tron/TronCard';
@@ -79,6 +79,14 @@ const SCAN_MESSAGES = [
 ];
 
 export default function LeadsPage() {
+    return (
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: 'var(--bg-black)' }} />}>
+            <LeadsPageContent />
+        </Suspense>
+    );
+}
+
+function LeadsPageContent() {
     const [scanResults, setScanResults] = useState([]);
     const [scanning, setScanning] = useState(false);
     const [saveToast, setSaveToast] = useState(null);
@@ -95,6 +103,8 @@ export default function LeadsPage() {
     const timersRef = useRef([]);
     const debounceRefs = useRef({});
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const autoScanTriggered = useRef(false);
 
     // City autocomplete per input
     const handleLocationChange = (index, val) => {
@@ -158,6 +168,34 @@ export default function LeadsPage() {
             if (!session) router.push('/');
         });
     }, [router]);
+
+    // Auto-fill from URL params (from World Domination map)
+    const pendingAutoScan = useRef(false);
+    useEffect(() => {
+        if (autoScanTriggered.current) return;
+        const cityParam = searchParams.get('city');
+        const catParam = searchParams.get('category');
+        if (cityParam) {
+            autoScanTriggered.current = true;
+            pendingAutoScan.current = true;
+            setLocations([cityParam]);
+            if (catParam && CATEGORIES.includes(catParam)) {
+                setCategory(catParam);
+            }
+        }
+    }, [searchParams]);
+
+    // Auto-trigger scan once locations state has settled from URL params
+    useEffect(() => {
+        if (pendingAutoScan.current && locations[0] && locations[0].length > 2 && !scanning) {
+            pendingAutoScan.current = false;
+            // Small delay to let React render the pre-filled UI before scanning
+            const timer = setTimeout(() => {
+                handleScan();
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [locations]);
 
     // Helper: add a log line
     const addLog = (text) => {
