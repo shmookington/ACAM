@@ -16,19 +16,21 @@
     z-index: 1;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 1.25rem 1.5rem;
+    padding: 1.5rem 1.5rem 4rem;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
-/* --- Header --- */
+/* ══ Header ══ */
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+    flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
 .headerLeft {
@@ -39,9 +41,11 @@
 
 .title {
     font-family: var(--font-terminal);
-    font-size: 1.8rem;
-    color: var(--text-bright);
+    font-size: 2rem;
+    color: var(--phosphor);
     letter-spacing: 0.1em;
+    text-shadow: 0 0 12px var(--phosphor-glow);
+    text-transform: uppercase;
 }
 
 .headerRight {
@@ -51,92 +55,101 @@
 }
 
 .summaryText {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-family: var(--font-terminal);
+    font-size: 0.95rem;
     color: var(--text-dim);
+    letter-spacing: 0.04em;
 }
 
-/* --- Calendar Layout --- */
+/* ══ Calendar Layout ══ */
 .calendarLayout {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 1.25rem;
+    gap: 1.5rem;
     align-items: start;
 }
 
-/* --- Month Navigation --- */
+/* ══ Month Navigation ══ */
 .monthNav {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.1);
 }
 
 .monthName {
     font-family: var(--font-terminal);
-    font-size: 1.4rem;
-    color: var(--text-bright);
-    letter-spacing: 0.1em;
+    font-size: 1.6rem;
+    color: var(--phosphor);
+    letter-spacing: 0.12em;
     flex: 1;
     text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px var(--phosphor-glow);
 }
 
 .monthBtn {
     font-family: var(--font-terminal);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     background: none;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(0, 255, 65, 0.2);
     color: var(--phosphor);
-    padding: 0.3rem 0.6rem;
+    padding: 0.4rem 0.8rem;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .monthBtn:hover {
     border-color: var(--phosphor);
-    background: rgba(0, 255, 65, 0.06);
+    background: rgba(0, 255, 65, 0.08);
+    box-shadow: 0 0 8px var(--phosphor-glow);
 }
 
 .todayBtn {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-family: var(--font-terminal);
+    font-size: 0.88rem;
     background: rgba(0, 255, 65, 0.06);
-    border: 1px solid var(--border);
+    border: 1px solid rgba(0, 255, 65, 0.2);
     color: var(--phosphor);
-    padding: 0.3rem 0.6rem;
+    padding: 0.35rem 0.75rem;
     cursor: pointer;
     transition: all 0.2s;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .todayBtn:hover {
     border-color: var(--phosphor);
     background: rgba(0, 255, 65, 0.12);
+    box-shadow: 0 0 6px var(--phosphor-glow);
 }
 
-/* --- Day Headers --- */
+/* ══ Day Headers ══ */
 .dayHeaders {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-    margin-bottom: 2px;
+    gap: 3px;
+    margin-bottom: 3px;
 }
 
 .dayHeader {
     font-family: var(--font-terminal);
-    font-size: 0.85rem;
-    color: var(--text-dim);
+    font-size: 0.92rem;
+    color: var(--phosphor);
     text-align: center;
-    padding: 0.3rem 0;
-    letter-spacing: 0.08em;
+    padding: 0.5rem 0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.15);
 }
 
-/* --- Calendar Grid --- */
+/* ══ Calendar Grid ══ */
 .calendarGrid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
+    gap: 3px;
 }
 
 .dayEmpty {
@@ -146,161 +159,210 @@
 
 .dayCell {
     aspect-ratio: 1;
-    background: rgba(0, 255, 65, 0.02);
+    background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(0, 255, 65, 0.06);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.2rem;
+    gap: 0.3rem;
     cursor: pointer;
     transition: all 0.2s;
-    padding: 0.2rem;
+    padding: 0.3rem;
+    position: relative;
 }
 
 .dayCell:hover {
-    border-color: var(--phosphor);
+    border-color: rgba(0, 255, 65, 0.4);
     background: rgba(0, 255, 65, 0.06);
+    box-shadow: inset 0 0 12px rgba(0, 255, 65, 0.04);
 }
 
 .dayCellToday {
-    border-color: var(--amber) !important;
+    border-color: rgba(255, 176, 0, 0.5) !important;
     background: rgba(255, 176, 0, 0.06) !important;
+    box-shadow: inset 0 0 15px rgba(255, 176, 0, 0.06), 0 0 6px rgba(255, 176, 0, 0.15);
 }
 
 .dayCellSelected {
     border-color: var(--phosphor) !important;
     background: rgba(0, 255, 65, 0.1) !important;
-    box-shadow: 0 0 8px var(--phosphor-glow);
+    box-shadow: 0 0 10px var(--phosphor-glow), inset 0 0 15px rgba(0, 255, 65, 0.06);
 }
 
 .dayCellPast {
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 .dayCellPast:hover {
-    opacity: 1;
+    opacity: 0.8;
 }
 
 .dayCellOverdue {
     opacity: 1 !important;
-    border-color: rgba(255, 51, 51, 0.4) !important;
-    background: rgba(255, 51, 51, 0.04) !important;
+    border-color: rgba(255, 51, 51, 0.5) !important;
+    background: rgba(255, 51, 51, 0.06) !important;
+    animation: overdueGlow 2s ease-in-out infinite;
+}
+
+@keyframes overdueGlow {
+
+    0%,
+    100% {
+        box-shadow: none;
+    }
+
+    50% {
+        box-shadow: inset 0 0 12px rgba(255, 51, 51, 0.08), 0 0 4px rgba(255, 51, 51, 0.2);
+    }
 }
 
 .dayNum {
     font-family: var(--font-terminal);
-    font-size: 1rem;
-    color: var(--text-normal);
+    font-size: 1.15rem;
+    color: #ddd;
+    font-weight: 600;
 }
 
 .dayCellToday .dayNum {
-    color: var(--amber);
-    font-weight: bold;
+    color: #ffb000;
+    font-weight: 700;
+    text-shadow: 0 0 6px rgba(255, 176, 0, 0.4);
+}
+
+.dayCellOverdue .dayNum {
+    color: #ff3333;
 }
 
 .dayDots {
     display: flex;
-    gap: 3px;
+    gap: 4px;
     align-items: center;
 }
 
 .dayDot {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
+    box-shadow: 0 0 4px currentColor;
 }
 
 .dayDotMore {
-    font-family: var(--font-mono);
-    font-size: 0.55rem;
+    font-family: var(--font-terminal);
+    font-size: 0.65rem;
     color: var(--text-dim);
 }
 
-/* --- Detail Panel --- */
+/* ══ Detail Panel ══ */
 .detailTitle {
     font-family: var(--font-terminal);
     font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+    color: var(--phosphor);
+    text-shadow: 0 0 6px var(--phosphor-glow);
+    letter-spacing: 0.04em;
 }
 
 .overdueTag {
     font-family: var(--font-terminal);
-    font-size: 0.85rem;
-    color: var(--red-alert);
+    font-size: 0.92rem;
+    color: #ff3333;
     margin-bottom: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid rgba(255, 51, 51, 0.2);
+    background: rgba(255, 51, 51, 0.04);
+    text-shadow: 0 0 4px rgba(255, 51, 51, 0.3);
+    letter-spacing: 0.04em;
 }
 
 .todayTag {
     font-family: var(--font-terminal);
-    font-size: 0.85rem;
-    color: var(--amber);
+    font-size: 0.92rem;
+    color: #ffb000;
     margin-bottom: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid rgba(255, 176, 0, 0.2);
+    background: rgba(255, 176, 0, 0.04);
+    text-shadow: 0 0 4px rgba(255, 176, 0, 0.3);
+    letter-spacing: 0.04em;
 }
 
 .emptyDetail {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-family: var(--font-terminal);
+    font-size: 0.95rem;
     color: var(--text-dim);
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 2.5rem 1rem;
+    letter-spacing: 0.04em;
 }
 
 .detailList {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.6rem;
 }
 
 .detailCard {
-    background: rgba(0, 255, 65, 0.02);
-    border: 1px solid rgba(0, 255, 65, 0.1);
-    padding: 0.6rem 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 65, 0.12);
+    padding: 0.8rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.4rem;
+    transition: all 0.2s;
+}
+
+.detailCard:hover {
+    border-color: rgba(0, 255, 65, 0.25);
+    background: rgba(0, 255, 65, 0.02);
 }
 
 .detailCardHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.5rem;
 }
 
 .detailCardHeader strong {
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    color: var(--text-bright);
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    color: #e0e0e0;
 }
 
 .detailCategory {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-family: var(--font-terminal);
+    font-size: 0.78rem;
     color: var(--text-dim);
+    padding: 0.1rem 0.4rem;
+    border: 1px solid rgba(0, 255, 65, 0.08);
+    letter-spacing: 0.04em;
 }
 
 .detailMeta {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--text-dim);
+    font-family: var(--font-terminal);
+    font-size: 0.88rem;
+    color: var(--phosphor);
+    letter-spacing: 0.04em;
 }
 
 .detailNote {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
     color: var(--text-dim);
-    background: rgba(0, 255, 65, 0.03);
-    border-left: 2px solid rgba(0, 255, 65, 0.2);
-    padding: 0.2rem 0.4rem;
+    background: rgba(0, 255, 65, 0.02);
+    border-left: 2px solid rgba(0, 255, 65, 0.3);
+    padding: 0.35rem 0.6rem;
+    margin-top: 0.15rem;
 }
 
 .detailActions {
-    margin-top: 0.3rem;
+    margin-top: 0.4rem;
 }
 
-/* --- Responsive --- */
+/* ══ Responsive ══ */
 @media (max-width: 1024px) {
     .calendarLayout {
         grid-template-columns: 1fr;
@@ -308,12 +370,56 @@
 }
 
 @media (max-width: 640px) {
+    .container {
+        padding: 1rem 0.8rem 3rem;
+    }
+
     .header {
         flex-direction: column;
+        align-items: flex-start;
         gap: 0.5rem;
     }
 
+    .title {
+        font-size: 1.4rem;
+    }
+
+    .summaryText {
+        font-size: 0.82rem;
+    }
+
+    .monthName {
+        font-size: 1.2rem;
+    }
+
+    .monthBtn {
+        font-size: 1.1rem;
+        padding: 0.3rem 0.6rem;
+    }
+
     .dayNum {
-        font-size: 0.8rem;
+        font-size: 0.92rem;
+    }
+
+    .dayHeader {
+        font-size: 0.78rem;
+    }
+
+    .dayCell {
+        padding: 0.15rem;
+        gap: 0.15rem;
+    }
+
+    .dayDot {
+        width: 4px;
+        height: 4px;
+    }
+
+    .detailCardHeader strong {
+        font-size: 0.92rem;
+    }
+
+    .detailMeta {
+        font-size: 0.82rem;
     }
 }
