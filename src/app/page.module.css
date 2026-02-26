@@ -133,6 +133,24 @@
   margin-top: 0.3rem;
 }
 
+.toggleAuth {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-terminal);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 0.5rem 0 0;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.toggleAuth:hover {
+  color: var(--phosphor);
+}
+
 .footer {
   font-family: var(--font-terminal);
   font-size: 0.92rem;
