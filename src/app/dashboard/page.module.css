@@ -1039,8 +1039,12 @@
     }
 
     .accountDropdown {
-        right: -0.5rem;
-        min-width: 180px;
+        position: fixed;
+        top: auto;
+        right: 0.5rem;
+        left: 0.5rem;
+        width: auto;
+        transform-origin: top center;
     }
 
     /* Metrics — 3 columns = 2 clean rows of 3 */
