@@ -67,8 +67,6 @@
   text-transform: uppercase;
   color: var(--text-dim);
   margin-top: 0.4rem;
-  opacity: 0;
-  animation: fadeIn 0.8s ease 0.8s both;
 }
 
 .divider {
