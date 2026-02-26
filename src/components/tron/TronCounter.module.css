@@ -1,0 +1,10 @@
+.counter {
+    font-family: var(--font-terminal);
+    font-size: 2.4rem;
+    color: var(--text-bright);
+    text-shadow:
+        0 0 6px var(--phosphor-dim),
+        0 0 15px var(--phosphor-glow);
+    letter-spacing: 0.05em;
+    animation: counterTick 0.4s linear both;
+}

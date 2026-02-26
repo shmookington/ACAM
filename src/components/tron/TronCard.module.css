@@ -1,0 +1,45 @@
+.card {
+    background: var(--bg-panel);
+    background-image: var(--bg-card-inner);
+    border: 1px solid var(--border);
+    border-top-color: rgba(0, 255, 65, 0.2);
+    border-radius: 0;
+    padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
+    transition:
+        border-color var(--transition-normal),
+        box-shadow var(--transition-normal),
+        background var(--transition-normal),
+        transform var(--transition-normal);
+}
+
+.card:hover {
+    border-color: var(--border-bright);
+    background: var(--bg-panel-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.glow {
+    box-shadow: var(--shadow-md), 0 0 8px var(--phosphor-glow);
+}
+
+.glow:hover {
+    box-shadow:
+        var(--shadow-lg),
+        0 0 12px var(--phosphor-glow),
+        0 0 30px var(--phosphor-faint);
+    transform: translateY(-2px);
+}
+
+/* Featured card variant — for hero elements */
+.featured {
+    border-color: var(--border-bright);
+    background: var(--bg-panel-elevated);
+    box-shadow: var(--shadow-lg), 0 0 20px var(--phosphor-faint);
+}
+
+.featured:hover {
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    transform: translateY(-2px);
+}

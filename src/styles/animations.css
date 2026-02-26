@@ -1,0 +1,440 @@
+/* ============================================
+   ACAM — ANIMATIONS v2
+   Every keyframe for the Tron universe.
+   Spring physics. Depth. Drama.
+   ============================================ */
+
+/* --- Grid Pulse --- */
+@keyframes gridPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* --- Glow Breathe --- */
+@keyframes glowBreath {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 5px var(--phosphor-glow),
+            0 0 15px var(--phosphor-faint);
+    }
+
+    50% {
+        box-shadow:
+            0 0 10px var(--phosphor-dim),
+            0 0 30px var(--phosphor-glow),
+            0 0 50px var(--phosphor-faint);
+    }
+}
+
+/* --- Counter Tick --- */
+@keyframes counterTick {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.95);
+        filter: blur(2px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* --- Boot In --- */
+@keyframes bootIn {
+    0% {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    40% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Boot In From Left --- */
+@keyframes bootInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- Scanline Sweep --- */
+@keyframes scanlineSweep {
+    0% {
+        transform: translateY(-100vh);
+    }
+
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+/* --- Text Flicker --- */
+@keyframes textFlicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    93% {
+        opacity: 0.7;
+    }
+
+    94% {
+        opacity: 1;
+    }
+}
+
+/* --- Glitch Effect --- */
+@keyframes glitch {
+
+    0%,
+    100% {
+        transform: translate(0);
+        text-shadow: 2px 0 rgba(255, 0, 0, 0.15), -2px 0 rgba(0, 100, 255, 0.15);
+    }
+
+    10% {
+        transform: translate(-2px, 1px);
+        text-shadow: 3px 0 rgba(255, 0, 0, 0.2), -3px 0 rgba(0, 100, 255, 0.2);
+    }
+
+    20% {
+        transform: translate(2px, -1px);
+        text-shadow: -2px 0 rgba(255, 0, 0, 0.15), 2px 0 rgba(0, 100, 255, 0.15);
+    }
+
+    30% {
+        transform: translate(0);
+        text-shadow: 2px 0 rgba(255, 0, 0, 0.15), -2px 0 rgba(0, 100, 255, 0.15);
+    }
+}
+
+@keyframes glitchReveal {
+    0% {
+        opacity: 0;
+        transform: translate(-4px, 2px) scaleX(1.02);
+        text-shadow: 4px 0 rgba(255, 0, 0, 0.3), -4px 0 rgba(0, 100, 255, 0.3);
+        filter: blur(2px);
+    }
+
+    15% {
+        opacity: 0.4;
+        transform: translate(3px, -1px) scaleX(0.98);
+        text-shadow: -3px 0 rgba(255, 0, 0, 0.2), 3px 0 rgba(0, 100, 255, 0.2);
+        filter: blur(1px);
+    }
+
+    30% {
+        opacity: 0.7;
+        transform: translate(-1px, 1px);
+        text-shadow: 2px 0 rgba(255, 0, 0, 0.15), -2px 0 rgba(0, 100, 255, 0.15);
+        filter: blur(0);
+    }
+
+    50% {
+        opacity: 0.9;
+        transform: translate(1px, 0);
+        text-shadow: -1px 0 rgba(255, 0, 0, 0.1), 1px 0 rgba(0, 100, 255, 0.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0);
+        text-shadow: 0 0 8px var(--phosphor-dim), 0 0 20px var(--phosphor-glow);
+    }
+}
+
+/* --- Pulse Ring --- */
+@keyframes pulseRing {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* --- Data Stream --- */
+@keyframes dataStream {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Bar Fill --- */
+@keyframes barFill {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: var(--fill-width, 100%);
+    }
+}
+
+/* --- Spin Loader --- */
+@keyframes tronSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- Neon Border Chase --- */
+@keyframes borderChase {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* --- Fade In --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* --- Scale In --- */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- Type Writer --- */
+@keyframes typeWriter {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blinkCursor {
+
+    0%,
+    100% {
+        border-right-color: var(--phosphor);
+    }
+
+    50% {
+        border-right-color: transparent;
+    }
+}
+
+/* --- Skeleton Pulse --- */
+@keyframes skeletonPulse {
+
+    0%,
+    100% {
+        opacity: 0.04;
+    }
+
+    50% {
+        opacity: 0.08;
+    }
+}
+
+/* --- XP Bar Fill --- */
+@keyframes xpFill {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: var(--xp-width, 100%);
+    }
+}
+
+/* --- Glow Pulse (for featured elements) --- */
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px var(--phosphor-glow);
+    }
+
+    50% {
+        box-shadow: 0 0 15px var(--phosphor-dim), 0 0 30px var(--phosphor-glow);
+    }
+}
+
+/* --- Chromatic Shift (subtle RGB offset) --- */
+@keyframes chromaticShift {
+
+    0%,
+    100% {
+        text-shadow: 2px 0 rgba(255, 0, 0, 0.06), -2px 0 rgba(0, 100, 255, 0.06), 0 0 8px var(--phosphor-dim);
+    }
+
+    50% {
+        text-shadow: -1px 0 rgba(255, 0, 0, 0.08), 1px 0 rgba(0, 100, 255, 0.08), 0 0 12px var(--phosphor-dim);
+    }
+}
+
+/* --- Slide Up Enter --- */
+@keyframes slideUpEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Count Up (for numbers) --- */
+@keyframes countPop {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* --- Animation Utility Classes --- */
+.animate-boot-in {
+    animation: bootIn 0.5s var(--ease-out-expo) both;
+}
+
+.animate-boot-in-left {
+    animation: bootInLeft 0.5s var(--ease-out-expo) both;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease both;
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.4s var(--ease-spring) both;
+}
+
+.animate-glow-breath {
+    animation: glowBreath 3s ease-in-out infinite;
+}
+
+.animate-glitch-reveal {
+    animation: glitchReveal 0.8s var(--ease-out-expo) both;
+}
+
+.animate-slide-up {
+    animation: slideUpEnter 0.5s var(--ease-spring) both;
+}
+
+/* Staggered delays for boot-in sequences */
+.delay-1 {
+    animation-delay: 0.08s;
+}
+
+.delay-2 {
+    animation-delay: 0.15s;
+}
+
+.delay-3 {
+    animation-delay: 0.22s;
+}
+
+.delay-4 {
+    animation-delay: 0.30s;
+}
+
+.delay-5 {
+    animation-delay: 0.38s;
+}
+
+.delay-6 {
+    animation-delay: 0.46s;
+}
+
+.delay-7 {
+    animation-delay: 0.54s;
+}
+
+.delay-8 {
+    animation-delay: 0.62s;
+}
+
+/* --- Tron Loader --- */
+.tron-loader {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--phosphor-glow);
+    border-top-color: var(--phosphor);
+    border-radius: 50%;
+    animation: tronSpin 0.8s linear infinite;
+}
+
+.tron-loader-large {
+    width: 48px;
+    height: 48px;
+}

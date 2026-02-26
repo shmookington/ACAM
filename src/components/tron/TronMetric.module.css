@@ -1,0 +1,80 @@
+.metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1rem 0.75rem;
+    text-align: center;
+    transition: transform var(--transition-normal);
+}
+
+.metric:hover {
+    transform: translateY(-1px);
+}
+
+.icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.2rem;
+    filter: drop-shadow(0 0 4px var(--phosphor-glow));
+}
+
+.value {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-bright);
+    text-shadow: 0 0 6px var(--phosphor-glow);
+}
+
+.label {
+    font-family: var(--font-terminal);
+    font-size: 1.05rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+.trend {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 0;
+    margin-top: 0.15rem;
+}
+
+.trendUp {
+    color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.08);
+}
+
+.trendDown {
+    color: var(--red-alert);
+    background: rgba(255, 51, 51, 0.08);
+}
+
+/* Hero variant for key metrics */
+.hero {
+    padding: 1.25rem 1rem;
+    position: relative;
+}
+
+.hero .value {
+    font-size: 2.8rem;
+    text-shadow: 0 0 10px var(--phosphor-dim), 0 0 25px var(--phosphor-glow);
+}
+
+.hero .icon {
+    font-size: 1.8rem;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    right: 20%;
+    height: 1px;
+    background: var(--gradient-primary);
+    opacity: 0.3;
+}

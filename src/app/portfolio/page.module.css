@@ -1,0 +1,249 @@
+/* Portfolio Page — Clean Gallery */
+.loadingScreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.page {
+    min-height: 100vh;
+    position: relative;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+}
+
+.headerLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.title {
+    font-family: var(--font-terminal);
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+    color: var(--phosphor);
+    text-shadow: 0 0 10px var(--phosphor-glow);
+}
+
+.subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+}
+
+.headerRight {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Empty State */
+.emptyState {
+    margin-top: 3rem;
+}
+
+.emptyContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem 1rem;
+}
+
+.emptyIcon {
+    font-size: 2.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.emptyText {
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    color: var(--text-bright);
+}
+
+.emptySubtext {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    text-align: center;
+    max-width: 380px;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+
+/* Showcase Grid */
+.showcaseGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.showcaseCard {
+    width: 100%;
+}
+
+/* Card */
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.cardHeaderLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.clientName {
+    font-family: var(--font-terminal);
+    font-size: 1.1rem;
+    color: var(--text-bright);
+    letter-spacing: 0.05em;
+}
+
+.industryTag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.08);
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    padding: 0.15rem 0.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.cardDate {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+/* Plan Content */
+.planSection {
+    border-top: 1px solid rgba(0, 255, 65, 0.1);
+    padding-top: 0.75rem;
+}
+
+.planContent {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-mid, rgba(0, 255, 65, 0.65));
+    line-height: 1.6;
+    max-height: 120px;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    position: relative;
+}
+
+.planContent::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(transparent, var(--bg-black, #0a0a0a));
+    pointer-events: none;
+}
+
+.planExpanded {
+    max-height: 5000px;
+}
+
+.planExpanded::after {
+    display: none;
+}
+
+.planContent p {
+    margin-bottom: 0.3rem;
+}
+
+.planHeading {
+    font-family: var(--font-terminal);
+    color: var(--phosphor);
+    font-size: 0.92rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.05em;
+}
+
+.expandBtn {
+    font-family: var(--font-terminal);
+    font-size: 0.8rem;
+    color: var(--phosphor);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.expandBtn:hover {
+    opacity: 1;
+}
+
+/* Card Footer */
+.cardFooter {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(0, 255, 65, 0.08);
+    margin-top: 0.5rem;
+}
+
+.deleteBtn {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.4rem;
+    transition: color 0.2s;
+}
+
+.deleteBtn:hover {
+    color: var(--red-alert);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .headerRight {
+        width: 100%;
+    }
+
+    .cardHeaderLeft {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+}

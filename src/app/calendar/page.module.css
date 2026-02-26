@@ -1,0 +1,319 @@
+.page {
+    min-height: 100vh;
+    position: relative;
+}
+
+.loadingScreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-black);
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* --- Header --- */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.title {
+    font-family: var(--font-terminal);
+    font-size: 1.8rem;
+    color: var(--text-bright);
+    letter-spacing: 0.1em;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.summaryText {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+/* --- Calendar Layout --- */
+.calendarLayout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.25rem;
+    align-items: start;
+}
+
+/* --- Month Navigation --- */
+.monthNav {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.monthName {
+    font-family: var(--font-terminal);
+    font-size: 1.4rem;
+    color: var(--text-bright);
+    letter-spacing: 0.1em;
+    flex: 1;
+    text-align: center;
+}
+
+.monthBtn {
+    font-family: var(--font-terminal);
+    font-size: 1.2rem;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--phosphor);
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.monthBtn:hover {
+    border-color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.06);
+}
+
+.todayBtn {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    background: rgba(0, 255, 65, 0.06);
+    border: 1px solid var(--border);
+    color: var(--phosphor);
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.todayBtn:hover {
+    border-color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.12);
+}
+
+/* --- Day Headers --- */
+.dayHeaders {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 2px;
+}
+
+.dayHeader {
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 0.3rem 0;
+    letter-spacing: 0.08em;
+}
+
+/* --- Calendar Grid --- */
+.calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.dayEmpty {
+    aspect-ratio: 1;
+    background: transparent;
+}
+
+.dayCell {
+    aspect-ratio: 1;
+    background: rgba(0, 255, 65, 0.02);
+    border: 1px solid rgba(0, 255, 65, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0.2rem;
+}
+
+.dayCell:hover {
+    border-color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.06);
+}
+
+.dayCellToday {
+    border-color: var(--amber) !important;
+    background: rgba(255, 176, 0, 0.06) !important;
+}
+
+.dayCellSelected {
+    border-color: var(--phosphor) !important;
+    background: rgba(0, 255, 65, 0.1) !important;
+    box-shadow: 0 0 8px var(--phosphor-glow);
+}
+
+.dayCellPast {
+    opacity: 0.5;
+}
+
+.dayCellPast:hover {
+    opacity: 1;
+}
+
+.dayCellOverdue {
+    opacity: 1 !important;
+    border-color: rgba(255, 51, 51, 0.4) !important;
+    background: rgba(255, 51, 51, 0.04) !important;
+}
+
+.dayNum {
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    color: var(--text-normal);
+}
+
+.dayCellToday .dayNum {
+    color: var(--amber);
+    font-weight: bold;
+}
+
+.dayDots {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+
+.dayDot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+
+.dayDotMore {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--text-dim);
+}
+
+/* --- Detail Panel --- */
+.detailTitle {
+    font-family: var(--font-terminal);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.overdueTag {
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
+    color: var(--red-alert);
+    margin-bottom: 0.5rem;
+}
+
+.todayTag {
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+}
+
+.emptyDetail {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.detailList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.detailCard {
+    background: rgba(0, 255, 65, 0.02);
+    border: 1px solid rgba(0, 255, 65, 0.1);
+    padding: 0.6rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.detailCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detailCardHeader strong {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-bright);
+}
+
+.detailCategory {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+.detailMeta {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.detailNote {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    background: rgba(0, 255, 65, 0.03);
+    border-left: 2px solid rgba(0, 255, 65, 0.2);
+    padding: 0.2rem 0.4rem;
+}
+
+.detailActions {
+    margin-top: 0.3rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .calendarLayout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .dayNum {
+        font-size: 0.8rem;
+    }
+}

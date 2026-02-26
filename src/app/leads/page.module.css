@@ -1,0 +1,690 @@
+.page {
+    min-height: 100vh;
+    position: relative;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    animation: bootIn 0.3s linear both;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 0.2rem;
+}
+
+.subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+}
+
+.headerActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Scan Panel */
+.sectionTitle {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.scanPanel {
+    position: relative;
+    z-index: 20;
+    overflow: visible !important;
+}
+
+.scanGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.75rem;
+    align-items: end;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+}
+
+.scanAction {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 1px;
+}
+
+/* Autocomplete */
+.cityInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cityInputs label {
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    color: var(--phosphor);
+    text-transform: uppercase;
+    margin-bottom: 0.1rem;
+}
+
+.cityRow {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    position: relative;
+}
+
+.cityRow .autocompleteWrap {
+    flex: 1;
+}
+
+.removeCityBtn {
+    font-family: var(--font-terminal);
+    font-size: 0.9rem;
+    background: none;
+    border: 1px solid rgba(255, 51, 51, 0.3);
+    color: #ff3333;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.removeCityBtn:hover {
+    background: rgba(255, 51, 51, 0.1);
+    border-color: #ff3333;
+}
+
+.addCityBtn {
+    font-family: var(--font-terminal);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    background: none;
+    border: 1px dashed rgba(0, 255, 65, 0.25);
+    color: var(--phosphor);
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    margin-top: 0.2rem;
+}
+
+.addCityBtn:hover {
+    border-color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.05);
+    box-shadow: 0 0 8px var(--phosphor-glow);
+}
+
+.autocompleteWrap {
+    position: relative;
+    z-index: 100;
+}
+
+.suggestionsList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    border: 1px solid var(--phosphor);
+    background: rgba(0, 0, 0, 0.95);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 10px var(--phosphor-glow);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestionItem {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    color: var(--text-normal);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.suggestionItem:last-child {
+    border-bottom: none;
+}
+
+.suggestionItem:hover {
+    background: rgba(0, 255, 65, 0.08);
+    color: var(--phosphor);
+    text-shadow: 0 0 4px var(--phosphor-glow);
+}
+
+/* Scan Progress */
+.scanProgress {
+    margin-top: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    color: var(--text-dim);
+}
+
+/* ============================================
+   CRT SCAN TERMINAL — streaming log animation
+   ============================================ */
+.scanTerminal {
+    margin-top: 0.75rem;
+    border: 1px solid var(--phosphor);
+    background: rgba(0, 0, 0, 0.9);
+    overflow: hidden;
+    box-shadow: 0 0 15px var(--phosphor-glow), inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.termHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.6rem;
+    background: rgba(0, 255, 65, 0.04);
+    border-bottom: 1px solid var(--border);
+}
+
+.termDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.termTitle {
+    font-family: var(--font-terminal);
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    color: var(--phosphor);
+    margin-left: 0.4rem;
+}
+
+.termBody {
+    padding: 0.5rem 0.6rem;
+    max-height: 180px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.termLine {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    animation: termFadeIn 0.15s linear both;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    line-height: 1.4;
+}
+
+.termTime {
+    color: var(--text-dim);
+    white-space: nowrap;
+    min-width: 60px;
+    font-size: 0.8rem;
+}
+
+.termSep {
+    color: rgba(0, 255, 65, 0.15);
+}
+
+.termText {
+    color: var(--phosphor);
+    text-shadow: 0 0 4px var(--phosphor-glow);
+}
+
+.termCursor {
+    color: var(--phosphor);
+    animation: termBlink 0.6s step-end infinite;
+}
+
+@keyframes termFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(2px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes termBlink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Terminal progress bar */
+.termProgress {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 0.6rem;
+    border-top: 1px solid var(--border);
+    background: rgba(0, 255, 65, 0.02);
+}
+
+.termProgressBar {
+    flex: 1;
+    height: 3px;
+    background: rgba(0, 255, 65, 0.08);
+    overflow: hidden;
+}
+
+.termProgressFill {
+    width: 100%;
+    height: 100%;
+    background: var(--phosphor);
+    box-shadow: 0 0 6px var(--phosphor);
+    animation: termProgressAnim 2.5s ease-in-out infinite;
+}
+
+@keyframes termProgressAnim {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.termProgressLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.88rem;
+    color: var(--phosphor);
+    letter-spacing: 0.15em;
+    animation: termBlink 1s step-end infinite;
+}
+
+/* Scan Result */
+.scanResult {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    animation: bootIn 0.2s linear both;
+}
+
+.success {
+    background: rgba(0, 255, 65, 0.06);
+    border: 1px solid rgba(0, 255, 65, 0.15);
+    color: var(--phosphor);
+}
+
+.error {
+    background: rgba(255, 51, 51, 0.06);
+    border: 1px solid rgba(255, 51, 51, 0.15);
+    color: var(--red-alert);
+}
+
+/* ============================================
+   STATS BANNER — NO WEBSITE COUNT IS THE STAR
+   ============================================ */
+.statsBanner {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+}
+
+.statBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+}
+
+.statNumber {
+    font-family: var(--font-terminal);
+    font-size: 1.6rem;
+    color: var(--text-normal);
+}
+
+.statLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+}
+
+/* THE HIGHLIGHT — no website count */
+.statHighlight {
+    padding: 0.5rem 1.5rem;
+    border: 1px solid rgba(255, 51, 51, 0.4);
+    background: rgba(255, 51, 51, 0.06);
+    box-shadow: 0 0 15px rgba(255, 51, 51, 0.08);
+}
+
+.statNumberHot {
+    font-family: var(--font-terminal);
+    font-size: 2.2rem;
+    color: #ff3333;
+    text-shadow: 0 0 10px rgba(255, 51, 51, 0.4), 0 0 25px rgba(255, 51, 51, 0.15);
+}
+
+.statLabelHot {
+    font-family: var(--font-terminal);
+    font-size: 0.92rem;
+    color: #ff3333;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 4px rgba(255, 51, 51, 0.3);
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.statusTabs {
+    display: flex;
+    gap: 0;
+}
+
+.statusTab {
+    font-family: var(--font-terminal);
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--border);
+    border-right: none;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.statusTab:last-child {
+    border-right: 1px solid var(--border);
+}
+
+.statusTab:hover {
+    color: var(--phosphor);
+}
+
+.statusTab.active {
+    background: rgba(0, 255, 65, 0.08);
+    color: var(--phosphor);
+    border-color: var(--phosphor);
+}
+
+.hotTab {
+    color: #ff3333;
+    border-color: rgba(255, 51, 51, 0.3);
+}
+
+.activeHot {
+    background: rgba(255, 51, 51, 0.1) !important;
+    color: #ff3333 !important;
+    border-color: #ff3333 !important;
+    box-shadow: 0 0 10px rgba(255, 51, 51, 0.1);
+}
+
+.bulkActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Lead List */
+.leadsList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 2.5rem !important;
+    color: var(--text-dim);
+    position: relative;
+    z-index: 1;
+}
+
+.emptyContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.emptyTitle {
+    font-family: var(--font-terminal);
+    font-size: 1.3rem;
+    color: var(--phosphor);
+    letter-spacing: 0.1em;
+}
+
+/* ============================================
+   LEAD CARD — normal leads
+   ============================================ */
+.leadCard {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    transition: border-color var(--transition-fast);
+}
+
+.leadCard:hover {
+    border-color: var(--border-bright);
+}
+
+/* ============================================
+   HOT LEAD — NO WEBSITE = THE MONEY CARD
+   This is the ENTIRE POINT of ACAM
+   ============================================ */
+.hotLead {
+    border-color: rgba(255, 51, 51, 0.35) !important;
+    background: rgba(255, 51, 51, 0.03) !important;
+    box-shadow: inset 0 0 20px rgba(255, 51, 51, 0.03), 0 0 10px rgba(255, 51, 51, 0.05);
+    position: relative;
+}
+
+.hotLead::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: #ff3333;
+    box-shadow: 0 0 8px rgba(255, 51, 51, 0.4);
+}
+
+.hotLead:hover {
+    border-color: rgba(255, 51, 51, 0.5) !important;
+    box-shadow: inset 0 0 25px rgba(255, 51, 51, 0.04), 0 0 15px rgba(255, 51, 51, 0.08);
+}
+
+/* Lead Header */
+.leadHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.4rem;
+}
+
+.leadInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.leadNameRow {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.hotBadge {
+    font-size: 0.9rem;
+}
+
+.leadName {
+    font-family: var(--font-terminal);
+    font-size: 1.15rem;
+    text-transform: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.leadCategory {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.leadHeaderRight {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* Score Badge */
+.scoreBadge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.2rem 0.4rem;
+    border: 1px solid;
+    min-width: 44px;
+}
+
+.scoreNumber {
+    font-family: var(--font-terminal);
+    font-size: 1.4rem;
+}
+
+.scoreLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+}
+
+/* Lead Details */
+.leadDetails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--text-normal);
+}
+
+/* Website tag — THE KEY INDICATOR */
+.noWebsiteTag {
+    color: #ff3333 !important;
+    font-weight: 700;
+    text-shadow: 0 0 6px rgba(255, 51, 51, 0.3);
+    letter-spacing: 0.05em;
+}
+
+.hasWebsiteTag {
+    color: var(--text-dim);
+}
+
+/* Lead Actions */
+.leadActions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.4rem;
+    border-top: 1px solid var(--border);
+}
+
+.actionLinks {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.actionLinks a {
+    font-family: var(--font-terminal);
+    font-size: 0.92rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.savedBadge {
+    font-family: var(--font-terminal);
+    font-size: 0.9rem;
+    color: var(--phosphor);
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 6px var(--phosphor-glow);
+}
+
+.alreadySavedBadge {
+    font-family: var(--font-terminal);
+    font-size: 0.8rem;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+    opacity: 0.8;
+}
+
+.statNumberSaved {
+    font-family: var(--font-terminal);
+    font-size: 1.6rem;
+    color: var(--amber);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .scanGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .statsBanner {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+}
