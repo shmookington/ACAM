@@ -373,6 +373,16 @@ function SavedLeadsInner() {
         }
     };
 
+    // Advance lead status in pipeline
+    const handleStatusUpdate = async (leadId, newStatus) => {
+        try {
+            await supabase.from('leads').update({ status: newStatus }).eq('id', leadId);
+            setLeads(prev => prev.map(l => l.id === leadId ? { ...l, status: newStatus } : l));
+        } catch (err) {
+            console.error('Status update error:', err);
+        }
+    };
+
     // Transition from dialer to quiz
     const handleDialerToQuiz = () => {
         const lead = dialerLead;
@@ -857,7 +867,7 @@ function SavedLeadsInner() {
                                                     <a href={lead.website_url} target="_blank" rel="noopener noreferrer">Website</a>
                                                 )}
                                                 <button className={styles.dialBtn} onClick={() => handleOpenDialer(lead)}>
-                                                    📞 {lead.phone_script ? 'View Script' : 'Setup Call'}
+                                                    📞 LOG CALL
                                                 </button>
                                                 <button className={styles.caseStudyBtn} onClick={() => handleOpenCaseStudy(lead)}>
                                                     📸 Case Study
@@ -1029,9 +1039,23 @@ function SavedLeadsInner() {
                                                 )}
                                             </div>
                                             <div className={styles.leadStatus}>
-                                                <span className={`badge badge-${lead.status === 'saved' ? 'cyan' : lead.status === 'contacted' ? 'amber' : 'green'}`}>
+                                                <span className={`badge badge-${lead.status === 'saved' ? 'cyan' : lead.status === 'contacted' ? 'amber' : lead.status === 'meeting' ? 'green' : lead.status === 'closed' ? 'green' : 'cyan'}`}>
                                                     {lead.status?.toUpperCase()}
                                                 </span>
+                                                {/* Pipeline advancement buttons */}
+                                                {lead.status === 'contacted' && lead.call_outcome === 'interested' && (
+                                                    <button className={styles.pipelineBtn} onClick={() => handleStatusUpdate(lead.id, 'meeting')}>
+                                                        ▸ SET MEETING
+                                                    </button>
+                                                )}
+                                                {lead.status === 'meeting' && (
+                                                    <button className={styles.pipelineBtnClose} onClick={() => handleStatusUpdate(lead.id, 'closed')}>
+                                                        ★ CLOSE DEAL
+                                                    </button>
+                                                )}
+                                                {lead.status === 'closed' && (
+                                                    <span className={styles.closedBadge}>✓ CLOSED</span>
+                                                )}
                                                 {lead.callback_date && (() => {
                                                     const today = new Date().toISOString().split('T')[0];
                                                     const isOverdue = lead.callback_date < today;

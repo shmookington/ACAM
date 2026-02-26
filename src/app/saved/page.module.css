@@ -410,6 +410,56 @@
     color: var(--red-alert);
 }
 
+/* Pipeline Advancement Buttons */
+.pipelineBtn {
+    font-family: var(--font-terminal);
+    font-size: 0.7rem;
+    background: rgba(0, 255, 65, 0.06);
+    border: 1px solid rgba(0, 255, 65, 0.35);
+    color: var(--phosphor);
+    padding: 0.15rem 0.45rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+}
+
+.pipelineBtn:hover {
+    background: var(--phosphor);
+    color: var(--bg-black);
+    box-shadow: 0 0 8px var(--phosphor-glow);
+}
+
+.pipelineBtnClose {
+    font-family: var(--font-terminal);
+    font-size: 0.7rem;
+    background: rgba(255, 215, 0, 0.06);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    color: #ffd700;
+    padding: 0.15rem 0.45rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+}
+
+.pipelineBtnClose:hover {
+    background: #ffd700;
+    color: var(--bg-black);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.closedBadge {
+    font-family: var(--font-terminal);
+    font-size: 0.7rem;
+    color: var(--phosphor);
+    border: 1px solid var(--phosphor);
+    background: rgba(0, 255, 65, 0.08);
+    padding: 0.15rem 0.45rem;
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 4px var(--phosphor-glow);
+}
+
 /* Dialer Modal */
 .dialBtn {
     background: rgba(0, 255, 65, 0.05);
