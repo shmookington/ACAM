@@ -381,6 +381,8 @@
 .leadLinks {
     display: flex;
     gap: 0.75rem;
+    flex-wrap: wrap;
+    position: relative;
 }
 
 .leadLinks a {
@@ -506,15 +508,128 @@
     box-shadow: 0 0 6px rgba(0, 255, 65, 0.3);
 }
 
-.scheduleInput {
+/* ── Custom Mini Calendar ── */
+.miniCal {
+    position: absolute;
+    z-index: 50;
+    top: 100%;
+    left: 0;
+    margin-top: 0.3rem;
+    width: 260px;
+    background: rgba(8, 8, 8, 0.97);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 0 12px rgba(0, 255, 65, 0.08);
+    padding: 0.6rem;
+    animation: miniCalIn 0.15s ease-out;
+}
+
+@keyframes miniCalIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.miniCalHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+}
+
+.miniCalMonth {
     font-family: var(--font-terminal);
-    font-size: 0.72rem;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid var(--phosphor);
+    font-size: 0.82rem;
     color: var(--phosphor);
-    padding: 0.2rem 0.4rem;
-    outline: none;
-    color-scheme: dark;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    flex: 1;
+    text-align: center;
+    text-shadow: 0 0 6px var(--phosphor-glow);
+}
+
+.miniCalNav {
+    background: none;
+    border: 1px solid rgba(0, 255, 65, 0.15);
+    color: var(--phosphor);
+    font-size: 0.7rem;
+    padding: 0.15rem 0.35rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.miniCalNav:hover {
+    border-color: var(--phosphor);
+    background: rgba(0, 255, 65, 0.08);
+}
+
+.miniCalClose {
+    background: none;
+    border: 1px solid rgba(255, 51, 51, 0.2);
+    color: #ff3333;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.3rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-left: 0.2rem;
+}
+
+.miniCalClose:hover {
+    border-color: #ff3333;
+    background: rgba(255, 51, 51, 0.1);
+}
+
+.miniCalDays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.miniCalDayLabel {
+    font-family: var(--font-terminal);
+    font-size: 0.62rem;
+    color: rgba(0, 255, 65, 0.5);
+    text-align: center;
+    padding: 0.2rem 0;
+    letter-spacing: 0.06em;
+}
+
+.miniCalDay {
+    font-family: var(--font-terminal);
+    font-size: 0.78rem;
+    background: rgba(0, 255, 65, 0.02);
+    border: 1px solid rgba(0, 255, 65, 0.04);
+    color: #ccc;
+    padding: 0.3rem 0;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.12s;
+}
+
+.miniCalDay:hover:not(:disabled) {
+    background: rgba(0, 255, 65, 0.1);
+    border-color: rgba(0, 255, 65, 0.4);
+    color: var(--phosphor);
+    box-shadow: 0 0 4px var(--phosphor-glow);
+}
+
+.miniCalDayToday {
+    border-color: rgba(255, 176, 0, 0.4) !important;
+    color: #ffb000 !important;
+    font-weight: 700;
+    background: rgba(255, 176, 0, 0.06) !important;
+}
+
+.miniCalDayPast {
+    opacity: 0.25;
+    cursor: not-allowed !important;
 }
 
 .quickLogPanel {

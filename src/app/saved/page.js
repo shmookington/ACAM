@@ -904,23 +904,58 @@ function SavedLeadsInner() {
                                                 <button className={styles.scriptBtn} onClick={() => handleOpenDialer(lead)}>
                                                     📋 SCRIPT
                                                 </button>
-                                                {scheduleCallId === lead.id ? (
-                                                    <input
-                                                        type="date"
-                                                        className={styles.scheduleInput}
-                                                        autoFocus
-                                                        min={new Date().toISOString().split('T')[0]}
-                                                        onBlur={() => setScheduleCallId(null)}
-                                                        onChange={async (e) => {
-                                                            const date = e.target.value;
-                                                            if (!date) return;
-                                                            await supabase.from('leads').update({ callback_date: date }).eq('id', lead.id);
-                                                            setScheduleCallId(null);
-                                                            fetchLeads();
-                                                            setGenResult({ type: 'success', message: `📅 Call scheduled for ${new Date(date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — ${lead.business_name}` });
-                                                        }}
-                                                    />
-                                                ) : (
+                                                {scheduleCallId === lead.id ? (() => {
+                                                    const now = new Date();
+                                                    const [calYear, calMonth] = scheduleCallId === lead.id
+                                                        ? [lead._calYear ?? now.getFullYear(), lead._calMonth ?? now.getMonth()]
+                                                        : [now.getFullYear(), now.getMonth()];
+                                                    const daysInMo = new Date(calYear, calMonth + 1, 0).getDate();
+                                                    const startDay = new Date(calYear, calMonth, 1).getDay();
+                                                    const todayStr = now.toISOString().split('T')[0];
+                                                    const moName = new Date(calYear, calMonth).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+                                                    return (
+                                                        <div className={styles.miniCal} onClick={(e) => e.stopPropagation()}>
+                                                            <div className={styles.miniCalHeader}>
+                                                                <button className={styles.miniCalNav} onClick={() => {
+                                                                    const prev = calMonth === 0 ? 11 : calMonth - 1;
+                                                                    const yr = calMonth === 0 ? calYear - 1 : calYear;
+                                                                    setLeads(ls => ls.map(l => l.id === lead.id ? { ...l, _calYear: yr, _calMonth: prev } : l));
+                                                                }}>◀</button>
+                                                                <span className={styles.miniCalMonth}>{moName}</span>
+                                                                <button className={styles.miniCalNav} onClick={() => {
+                                                                    const next = calMonth === 11 ? 0 : calMonth + 1;
+                                                                    const yr = calMonth === 11 ? calYear + 1 : calYear;
+                                                                    setLeads(ls => ls.map(l => l.id === lead.id ? { ...l, _calYear: yr, _calMonth: next } : l));
+                                                                }}>▶</button>
+                                                                <button className={styles.miniCalClose} onClick={() => setScheduleCallId(null)}>✕</button>
+                                                            </div>
+                                                            <div className={styles.miniCalDays}>
+                                                                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <span key={i} className={styles.miniCalDayLabel}>{d}</span>)}
+                                                                {Array.from({ length: startDay }, (_, i) => <span key={`e${i}`} />)}
+                                                                {Array.from({ length: daysInMo }, (_, i) => {
+                                                                    const d = i + 1;
+                                                                    const dateStr = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                                                                    const isToday = dateStr === todayStr;
+                                                                    const isPast = dateStr < todayStr;
+                                                                    return (
+                                                                        <button
+                                                                            key={d}
+                                                                            className={`${styles.miniCalDay} ${isToday ? styles.miniCalDayToday : ''} ${isPast ? styles.miniCalDayPast : ''}`}
+                                                                            disabled={isPast}
+                                                                            onClick={async () => {
+                                                                                await supabase.from('leads').update({ callback_date: dateStr }).eq('id', lead.id);
+                                                                                setScheduleCallId(null);
+                                                                                fetchLeads();
+                                                                                setGenResult({ type: 'success', message: `📅 Call scheduled for ${new Date(dateStr + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} — ${lead.business_name}` });
+                                                                            }}
+                                                                        >{d}</button>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })() : (
                                                     <button className={styles.scheduleBtn} onClick={(e) => { e.stopPropagation(); setScheduleCallId(lead.id); }}>
                                                         📅 {lead.callback_date ? new Date(lead.callback_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'SCHEDULE'}
                                                     </button>
