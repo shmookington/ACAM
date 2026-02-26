@@ -8,9 +8,13 @@ import TronCard from '@/components/tron/TronCard';
 import TronButton from '@/components/tron/TronButton';
 import styles from './page.module.css';
 
+const PLAYER_COLORS = { Amiri: '#00d4ff', Toby: '#ff8c00', Yaz: '#c084fc' };
+const PLAYER_AVATARS = { Amiri: '😈', Toby: '⚡', Yaz: '🎯' };
+
 export default function StatsPage() {
     const [players, setPlayers] = useState({});
     const [leaderboard, setLeaderboard] = useState([]);
+    const [dailyCallLog, setDailyCallLog] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activePlayer, setActivePlayer] = useState(null);
     const [userEmail, setUserEmail] = useState('');
@@ -38,6 +42,7 @@ export default function StatsPage() {
                 const data = await res.json();
                 if (data.players) setPlayers(data.players);
                 if (data.leaderboard) setLeaderboard(data.leaderboard);
+                if (data.dailyCallLog) setDailyCallLog(data.dailyCallLog);
             } catch (err) {
                 console.error('Stats fetch error:', err);
             } finally {
@@ -318,6 +323,51 @@ export default function StatsPage() {
                                     </div>
                                 ))}
                             </div>
+                        </section>
+
+                        {/* Daily Call Activity */}
+                        <section className={styles.dailyCallSection}>
+                            <h2 className={styles.leaderboardTitle}>
+                                <span>📞</span> DAILY CALL LOG
+                            </h2>
+                            {dailyCallLog.length === 0 ? (
+                                <p className={styles.emptyNote}>No calls logged yet</p>
+                            ) : (
+                                <div className={styles.dailyCallTable}>
+                                    <div className={styles.dailyCallHeaderRow}>
+                                        <span className={styles.dailyCallHeaderDate}>DATE</span>
+                                        {['Amiri', 'Toby', 'Yaz'].map(name => (
+                                            <span key={name} className={styles.dailyCallHeaderPlayer} style={{ color: PLAYER_COLORS[name] }}>
+                                                {PLAYER_AVATARS[name]} {name}
+                                            </span>
+                                        ))}
+                                        <span className={styles.dailyCallHeaderTotal}>TOTAL</span>
+                                    </div>
+                                    {dailyCallLog.map(row => {
+                                        const d = new Date(row.date + 'T12:00:00');
+                                        const dateLabel = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                                        const isToday = row.date === new Date().toISOString().split('T')[0];
+                                        return (
+                                            <div key={row.date} className={`${styles.dailyCallRow} ${isToday ? styles.dailyCallRowToday : ''}`}>
+                                                <span className={styles.dailyCallDate}>
+                                                    {isToday && <span className={styles.todayDot}>●</span>}
+                                                    {dateLabel}
+                                                </span>
+                                                {['Amiri', 'Toby', 'Yaz'].map(name => (
+                                                    <span
+                                                        key={name}
+                                                        className={styles.dailyCallCount}
+                                                        style={{ color: row[name] ? PLAYER_COLORS[name] : 'var(--text-dim)' }}
+                                                    >
+                                                        {row[name] || '—'}
+                                                    </span>
+                                                ))}
+                                                <span className={styles.dailyCallTotal}>{row.total}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
                         </section>
                     </>
                 )}

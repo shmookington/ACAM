@@ -210,6 +210,11 @@ export async function GET() {
                 .slice(0, 3)
                 .map(([cat, count]) => ({ category: cat, count }));
 
+            // Convert dailyCalls to sorted array and clean up internals
+            ps.dailyCalls = Object.entries(ps._dailyCalls)
+                .map(([date, count]) => ({ date, count }))
+                .sort((a, b) => b.date.localeCompare(a.date));
+
             // Clean up internal fields
             delete ps._dailyClaimed;
             delete ps._dailyCalls;
@@ -218,6 +223,23 @@ export async function GET() {
             delete ps.totalScore;
             delete ps.scoreCount;
         });
+
+        // Build combined daily call log (all players by date)
+        const dailyCallsAll = {};
+        Object.values(playerStats).forEach(ps => {
+            ps.dailyCalls.forEach(({ date, count }) => {
+                if (!dailyCallsAll[date]) dailyCallsAll[date] = {};
+                dailyCallsAll[date][ps.name] = count;
+            });
+        });
+        const dailyCallLog = Object.entries(dailyCallsAll)
+            .sort(([a], [b]) => b.localeCompare(a))
+            .slice(0, 30) // Last 30 days max
+            .map(([date, players]) => ({
+                date,
+                ...players,
+                total: Object.values(players).reduce((s, c) => s + c, 0),
+            }));
 
         // Leaderboard (simplified)
         const leaderboard = Object.values(playerStats)
@@ -257,6 +279,7 @@ export async function GET() {
         return NextResponse.json({
             players: playerStats,
             leaderboard,
+            dailyCallLog,
         });
     } catch (error) {
         console.error('Player stats error:', error);

@@ -653,3 +653,135 @@
         padding: 0.4rem 0.8rem;
     }
 }
+
+/* ══ Daily Call Log ══ */
+.dailyCallSection {
+    margin-top: var(--space-4);
+}
+
+.dailyCallTable {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dailyCallHeaderRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    margin-bottom: 0.25rem;
+}
+
+.dailyCallHeaderDate,
+.dailyCallHeaderPlayer,
+.dailyCallHeaderTotal {
+    font-family: var(--font-terminal);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.dailyCallHeaderDate {
+    color: var(--text-dim);
+}
+
+.dailyCallHeaderTotal {
+    color: var(--phosphor);
+    text-align: center;
+}
+
+.dailyCallHeaderPlayer {
+    text-align: center;
+}
+
+.dailyCallRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.55rem 0.8rem;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 255, 65, 0.04);
+    transition: all 0.15s;
+}
+
+.dailyCallRow:hover {
+    background: rgba(0, 255, 65, 0.04);
+    border-color: rgba(0, 255, 65, 0.12);
+}
+
+.dailyCallRowToday {
+    background: rgba(255, 176, 0, 0.05) !important;
+    border-color: rgba(255, 176, 0, 0.2) !important;
+}
+
+.dailyCallDate {
+    font-family: var(--font-terminal);
+    font-size: 0.88rem;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.todayDot {
+    color: #ffb000;
+    font-size: 0.6rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.dailyCallCount {
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.dailyCallTotal {
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--phosphor);
+    text-align: center;
+    text-shadow: 0 0 6px var(--phosphor-glow);
+}
+
+@media (max-width: 640px) {
+
+    .dailyCallHeaderRow,
+    .dailyCallRow {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+        padding: 0.4rem 0.5rem;
+    }
+
+    .dailyCallDate {
+        font-size: 0.75rem;
+    }
+
+    .dailyCallCount {
+        font-size: 0.85rem;
+    }
+
+    .dailyCallTotal {
+        font-size: 0.85rem;
+    }
+
+    .dailyCallHeaderDate,
+    .dailyCallHeaderPlayer,
+    .dailyCallHeaderTotal {
+        font-size: 0.65rem;
+    }
+}
