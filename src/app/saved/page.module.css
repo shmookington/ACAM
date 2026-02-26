@@ -1161,6 +1161,16 @@
     cursor: not-allowed;
 }
 
+.noEmailTag {
+    font-family: var(--font-terminal);
+    font-size: 0.70rem;
+    color: var(--red-alert, #ff3333);
+    opacity: 0.5;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid rgba(255, 51, 51, 0.15);
+    letter-spacing: 0.04em;
+}
+
 .proposalBtn {
     font-family: var(--font-terminal);
     font-size: 0.8rem;

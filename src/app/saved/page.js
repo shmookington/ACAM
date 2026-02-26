@@ -906,9 +906,13 @@ function SavedLeadsInner() {
                                                 <button className={styles.caseStudyBtn} onClick={() => handleOpenCaseStudy(lead)}>
                                                     📸 Case Study
                                                 </button>
-                                                <button className={styles.emailBtn} onClick={() => handleGenerateSingleEmail(lead.id)} disabled={generating}>
-                                                    ✉️ Email
-                                                </button>
+                                                {lead.email ? (
+                                                    <button className={styles.emailBtn} onClick={() => handleGenerateSingleEmail(lead.id)} disabled={generating}>
+                                                        ✉️ Email
+                                                    </button>
+                                                ) : (
+                                                    <span className={styles.noEmailTag}>✉️ NO EMAIL</span>
+                                                )}
                                                 <button
                                                     className={styles.proposalBtn}
                                                     onClick={async () => {

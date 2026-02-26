@@ -115,6 +115,15 @@ export async function POST(request) {
         for (let i = 0; i < leads.length; i++) {
             const lead = leads[i];
 
+            // Skip leads with no email on file
+            if (!lead.email) {
+                skipped.push({
+                    business: lead.business_name,
+                    reason: 'No email on file',
+                });
+                continue;
+            }
+
             // Check for existing emails to this lead (duplicate blocker)
             const { data: existingEmails } = await supabase
                 .from('outreach')
