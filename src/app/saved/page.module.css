@@ -510,31 +510,60 @@
     box-shadow: 0 0 6px rgba(0, 255, 65, 0.3);
 }
 
-/* ── Custom Mini Calendar ── */
-.miniCal {
-    position: absolute;
-    z-index: 999;
-    bottom: 100%;
-    left: 0;
-    margin-bottom: 0.3rem;
-    width: 260px;
+/* ── Calendar Overlay Modal ── */
+.calOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.calModal {
     background: #0a0a0a;
     border: 1px solid rgba(0, 255, 65, 0.4);
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 255, 65, 0.1);
-    padding: 0.6rem;
-    animation: miniCalIn 0.15s ease-out;
+    box-shadow: 0 0 40px rgba(0, 255, 65, 0.1), 0 8px 32px rgba(0, 0, 0, 0.8);
+    padding: 1.2rem;
+    width: 340px;
+    max-width: 95vw;
+    animation: miniCalIn 0.2s ease-out;
 }
 
 @keyframes miniCalIn {
     from {
         opacity: 0;
-        transform: translateY(-6px);
+        transform: scale(0.95);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
     }
+}
+
+.calModalTitle {
+    font-family: var(--font-terminal);
+    font-size: 0.88rem;
+    color: var(--phosphor);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+    text-shadow: 0 0 6px var(--phosphor-glow);
 }
 
 .miniCalHeader {
@@ -548,7 +577,7 @@
 
 .miniCalMonth {
     font-family: var(--font-terminal);
-    font-size: 0.82rem;
+    font-size: 1rem;
     color: var(--phosphor);
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -559,10 +588,10 @@
 
 .miniCalNav {
     background: none;
-    border: 1px solid rgba(0, 255, 65, 0.15);
+    border: 1px solid rgba(0, 255, 65, 0.2);
     color: var(--phosphor);
-    font-size: 0.7rem;
-    padding: 0.15rem 0.35rem;
+    font-size: 0.88rem;
+    padding: 0.3rem 0.6rem;
     cursor: pointer;
     transition: all 0.15s;
 }
@@ -596,20 +625,20 @@
 
 .miniCalDayLabel {
     font-family: var(--font-terminal);
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     color: rgba(0, 255, 65, 0.5);
     text-align: center;
-    padding: 0.2rem 0;
+    padding: 0.3rem 0;
     letter-spacing: 0.06em;
 }
 
 .miniCalDay {
     font-family: var(--font-terminal);
-    font-size: 0.78rem;
+    font-size: 0.92rem;
     background: rgba(0, 255, 65, 0.02);
-    border: 1px solid rgba(0, 255, 65, 0.04);
+    border: 1px solid rgba(0, 255, 65, 0.06);
     color: #ccc;
-    padding: 0.3rem 0;
+    padding: 0.45rem 0;
     text-align: center;
     cursor: pointer;
     transition: all 0.12s;
