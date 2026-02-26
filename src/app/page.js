@@ -14,7 +14,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [checkingSession, setCheckingSession] = useState(true);
-  const [isSignUp, setIsSignUp] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,49 +26,22 @@ export default function LoginPage() {
     });
   }, [router]);
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    if (isSignUp) {
-      const { error: signUpErr } = await supabase.auth.signUp({
-        email,
-        password,
-      });
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-      if (signUpErr) {
-        setError(signUpErr.message);
-        setLoading(false);
-        return;
-      }
-
-      // Auto sign-in after sign-up
-      const { error: signInErr } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (signInErr) {
-        setError('Account created! Sign in with your credentials.');
-        setIsSignUp(false);
-        setLoading(false);
-        return;
-      }
+    if (error) {
+      setError(error.message);
+      setLoading(false);
     } else {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        setError(error.message);
-        setLoading(false);
-        return;
-      }
+      router.push('/dashboard');
     }
-
-    router.push('/dashboard');
   };
 
   if (checkingSession) {
@@ -95,12 +67,12 @@ export default function LoginPage() {
           <div className={`${styles.divider} animate-boot-in delay-2`} />
         </div>
 
-        {/* Login / Sign Up Form */}
+        {/* Login Form */}
         <TronCard className={`${styles.formCard} animate-boot-in delay-3`}>
-          <form onSubmit={handleSubmit} className={styles.form}>
+          <form onSubmit={handleLogin} className={styles.form}>
             <div className={styles.systemStatus}>
               <span className={styles.statusDot} />
-              <span>{isSignUp ? 'NEW OPERATOR REGISTRATION' : 'SYSTEM AUTHENTICATION REQUIRED'}</span>
+              <span>SYSTEM AUTHENTICATION REQUIRED</span>
             </div>
 
             <div className={styles.field}>
@@ -117,16 +89,15 @@ export default function LoginPage() {
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="password">{isSignUp ? 'Create Access Code' : 'Access Code'}</label>
+              <label htmlFor="password">Access Code</label>
               <input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder={isSignUp ? 'Create a password' : 'Enter password'}
+                placeholder="Enter password"
                 required
-                autoComplete={isSignUp ? 'new-password' : 'current-password'}
-                minLength={isSignUp ? 6 : undefined}
+                autoComplete="current-password"
               />
             </div>
 
@@ -142,16 +113,8 @@ export default function LoginPage() {
               loading={loading}
               className={styles.loginButton}
             >
-              {isSignUp ? 'Create Account' : 'Initialize Session'}
+              Initialize Session
             </TronButton>
-
-            <button
-              type="button"
-              className={styles.toggleAuth}
-              onClick={() => { setIsSignUp(!isSignUp); setError(''); }}
-            >
-              {isSignUp ? '← Back to Sign In' : 'New operator? Create account →'}
-            </button>
           </form>
         </TronCard>
 
@@ -162,4 +125,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
