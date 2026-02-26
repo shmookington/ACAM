@@ -22,10 +22,7 @@ export default function EmailQueuePage() {
     const [userEmail, setUserEmail] = useState('');
     const router = useRouter();
 
-    const isAdmin = (() => {
-        const e = userEmail.toLowerCase();
-        return e.includes('amiri') || e.includes('caelborne');
-    })();
+
 
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -189,18 +186,14 @@ export default function EmailQueuePage() {
                             <>
                                 <TronButton onClick={() => startEdit(email)} size="sm" variant="secondary">✏️ Edit</TronButton>
                                 {email.status === 'draft' && (
-                                    isAdmin ? (
-                                        confirmApproveId === email.id ? (
-                                            <>
-                                                <span className={styles.confirmText}>Approve?</span>
-                                                <TronButton onClick={() => approveEmail(email.id)} size="sm" variant="primary">Yes</TronButton>
-                                                <TronButton onClick={() => setConfirmApproveId(null)} size="sm" variant="secondary">No</TronButton>
-                                            </>
-                                        ) : (
-                                            <TronButton onClick={() => setConfirmApproveId(email.id)} size="sm" variant="primary">✓ Approve</TronButton>
-                                        )
+                                    confirmApproveId === email.id ? (
+                                        <>
+                                            <span className={styles.confirmText}>Approve?</span>
+                                            <TronButton onClick={() => approveEmail(email.id)} size="sm" variant="primary">Yes</TronButton>
+                                            <TronButton onClick={() => setConfirmApproveId(null)} size="sm" variant="secondary">No</TronButton>
+                                        </>
                                     ) : (
-                                        <span className={styles.adminOnlyTag}>🔒 Admin approval required</span>
+                                        <TronButton onClick={() => setConfirmApproveId(email.id)} size="sm" variant="primary">✓ Approve</TronButton>
                                     )
                                 )}
                                 {email.status === 'approved' && (

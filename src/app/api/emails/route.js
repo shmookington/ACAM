@@ -110,9 +110,25 @@ export async function POST(request) {
 
         const emails = [];
         const errors = [];
+        const skipped = [];
 
         for (let i = 0; i < leads.length; i++) {
             const lead = leads[i];
+
+            // Check for existing emails to this lead (duplicate blocker)
+            const { data: existingEmails } = await supabase
+                .from('outreach')
+                .select('id, status')
+                .eq('lead_id', lead.id)
+                .in('status', ['draft', 'approved', 'sent']);
+
+            if (existingEmails && existingEmails.length > 0) {
+                skipped.push({
+                    business: lead.business_name,
+                    reason: `Already has ${existingEmails[0].status} email`,
+                });
+                continue;
+            }
 
             // Delay between leads to avoid rate limiting
             if (i > 0) await sleep(3000);
@@ -183,8 +199,9 @@ export async function POST(request) {
         }
 
         return NextResponse.json({
-            message: `${emails.length} emails generated${errors.length > 0 ? `, ${errors.length} failed` : ''}`,
+            message: `${emails.length} emails generated${skipped.length > 0 ? `, ${skipped.length} skipped (duplicate)` : ''}${errors.length > 0 ? `, ${errors.length} failed` : ''}`,
             emails,
+            skipped: skipped.length > 0 ? skipped : undefined,
             errors: errors.length > 0 ? errors : undefined,
         });
 
